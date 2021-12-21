@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "603530372941",
+    "project_id": "house-rent-manager",
+    "storage_bucket": "house-rent-manager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603530372941:android:c164121dbce31411363904",
+        "android_client_info": {
+          "package_name": "com.example.housemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603530372941-sushipue301tsp4or3cidp76i5pjhm2l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFiJaAE61GD_uXMHCTGf67BJUS_5SsIIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "603530372941-sushipue301tsp4or3cidp76i5pjhm2l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
