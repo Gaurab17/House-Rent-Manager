@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, empty_statements
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, empty_statements, unused_import
 
 import 'package:brewapp/Screens/Authenticate/signin.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
@@ -72,6 +72,7 @@ class _RegisterState extends State<Register> {
                             });
                           },
                           decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.email),
                               hintText: 'Email Here',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
@@ -93,6 +94,7 @@ class _RegisterState extends State<Register> {
                             });
                           },
                           decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
                               hintText: 'Enter Password',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),

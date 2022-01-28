@@ -17,7 +17,7 @@ class _ResetpswState extends State<Resetpsw> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   String email = '';
-  String hint = '';
+  // String hint = '';
   String error = '';
   bool loading = false;
   @override
@@ -56,6 +56,7 @@ class _ResetpswState extends State<Resetpsw> {
                           });
                         },
                         decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email),
                           hintText: 'Email ',
                         ),
                       ),
@@ -75,12 +76,11 @@ class _ResetpswState extends State<Resetpsw> {
                               error = 'Enter valid data';
                               loading = false;
                             });
-                          }
-                          if (result != null) {
-                            setState(() {
-                              hint =
-                                  'Check your email for the password reset link once you send request';
-                            });
+                            // } else if (result != null) {
+                            //   setState(() {
+                            //     hint =
+                            //         'Check your email for the password reset link once you send request';
+                            //   });
                           }
                           Navigator.of(context).pop();
                         }
@@ -98,11 +98,22 @@ class _ResetpswState extends State<Resetpsw> {
                     ),
                     Text(error,
                         style: TextStyle(color: Colors.red, fontSize: 16)),
-                    SizedBox(
-                      height: 10,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Enter your email address to request a password reset. You will be redirected to login form if email is correct.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18, color: Colors.blue[800]),
+                      ),
                     ),
-                    Text(hint,
-                        style: TextStyle(color: Colors.blue, fontSize: 16)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, right: 16),
+                      child: Text(
+                        'You will receive email with instructions.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18, color: Colors.blue[800]),
+                      ),
+                    )
                   ],
                 ),
               ),

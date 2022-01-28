@@ -43,27 +43,37 @@ class Home extends StatelessWidget {
           ),
           Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18),
-                  ),
-                ),
-                height: 150,
-                width: 170,
-              ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(18),
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(18),
+                          ),
+                        ),
+                        height: 150,
+                        width: 170,
+                      ),
                     ),
-                  ),
-                  height: 150,
-                  width: 170,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(18),
+                          ),
+                        ),
+                        height: 150,
+                        width: 170,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

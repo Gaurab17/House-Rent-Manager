@@ -70,6 +70,7 @@ class _SignInState extends State<SignIn> {
                             });
                           },
                           decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.email),
                               hintText: 'Email ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
@@ -91,6 +92,7 @@ class _SignInState extends State<SignIn> {
                             });
                           },
                           decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
                               hintText: 'Password ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
@@ -116,6 +118,8 @@ class _SignInState extends State<SignIn> {
                                 MaterialPageRoute(
                                     builder: (context) => Resetpsw()));
                           }),
+                      SizedBox(height: 14),
+                      Text(error, style: TextStyle(color: Colors.red)),
                       SizedBox(height: 14),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 3,
@@ -153,37 +157,23 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 20,
                       ),
-                      Text(error, style: TextStyle(color: Colors.red)),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                        child: Text(
-                          'Sign In as Guest',
-                          style: TextStyle(
-                            fontSize: 16,
+                      Text(
+                        "Doesn't have an account?",
+                        style: TextStyle(
+                            fontSize: 20,
                             fontWeight: FontWeight.w900,
-                            color: Color(0xff7274db),
-                          ),
-                        ),
-                        onTap: () async {
-                          dynamic result = await _auth.SignInAnon();
-                          if (result != null) {
-                            print('Sign In success');
-                            print(result.uid);
-                          } else {
-                            print('Error in anonymous signin');
-                          }
-                        },
+                            color: Colors.black87),
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 10,
                       ),
                       GestureDetector(
                         child: Text(
-                          "Doesn't have account? Sign up",
+                          "Sign up",
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.w900,
                               color: Colors.blue),
                         ),
