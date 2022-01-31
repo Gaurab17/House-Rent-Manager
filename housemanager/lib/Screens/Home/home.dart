@@ -1,111 +1,134 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors
 
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
   final AuthService _auth = AuthService();
+  _onItemtap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffebf7ee),
-      appBar: AppBar(
-        title: const Text('Home Manager'),
-        centerTitle: true,
-        backgroundColor: Colors.green[300],
-        leading: const Icon(Icons.home),
-        // ignore: prefer_const_literals_to_create_immutables
-        actions: [
-          TextButton.icon(
-            onPressed: () async {
-              await _auth.SignOut();
-            },
-            icon: Icon(Icons.logout),
-            label: Text('Logout'),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(18),
-                ),
-              ),
-              height: 180,
-              width: 400,
+        backgroundColor: Color(0xffe6fffa),
+        appBar: AppBar(
+          title: const Text('Home Manager'),
+          centerTitle: true,
+          backgroundColor: Colors.blue,
+          leading: const Icon(Icons.home),
+          actions: [
+            TextButton.icon(
+              onPressed: () async {
+                await _auth.SignOut();
+              },
+              icon: Icon(Icons.logout),
+              label: Text('Logout'),
             ),
-          ),
-          Row(
-            children: [
-              Container(
+          ],
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.blue,
                   borderRadius: BorderRadius.all(
                     Radius.circular(18),
                   ),
                 ),
-                height: 150,
-                width: 170,
+                height: MediaQuery.of(context).size.height / 4,
+                width: MediaQuery.of(context).size.width,
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(18),
+                      ),
+                    ),
+                    height: MediaQuery.of(context).size.height / 5,
+                    width: MediaQuery.of(context).size.width / 2.3,
+                  ),
+                ),
+                Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
                   ),
-                  height: 150,
-                  width: 170,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(18),
-                      ),
-                    ),
-                    height: 150,
-                    width: 170,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(18),
-                      ),
-                    ),
-                    height: 150,
-                    width: 170,
-                  ),
+                  height: MediaQuery.of(context).size.height / 5,
+                  width: MediaQuery.of(context).size.width / 2.3,
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(18),
+                      ),
+                    ),
+                    height: MediaQuery.of(context).size.height / 5,
+                    width: MediaQuery.of(context).size.width / 2.3,
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(18),
+                    ),
+                  ),
+                  height: MediaQuery.of(context).size.height / 5,
+                  width: MediaQuery.of(context).size.width / 2.3,
+                ),
+              ],
+            ),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            )
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemtap,
+        ));
   }
 }
