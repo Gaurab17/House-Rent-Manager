@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors
 
+// import 'package:brewapp/Screens/Home/profile.dart';
+// import 'package:brewapp/Screens/Home/setting.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +13,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // final List<Widget> _options = [
+  //   Home(),
+  //   Profile(),
+  //   Settings(),
+  // ];
   int _selectedIndex = 0;
+
   final AuthService _auth = AuthService();
   _onItemtap(int index) {
     setState(() {
@@ -40,6 +48,7 @@ class _HomeState extends State<Home> {
         ),
         body: Column(
           children: [
+            // _options[_selectedIndex],
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
@@ -66,6 +75,8 @@ class _HomeState extends State<Home> {
                     ),
                     height: MediaQuery.of(context).size.height / 5,
                     width: MediaQuery.of(context).size.width / 2.3,
+                    child: Icon(Icons.emoji_objects,
+                        size: 50, color: Colors.white),
                   ),
                 ),
                 Container(
@@ -77,6 +88,8 @@ class _HomeState extends State<Home> {
                   ),
                   height: MediaQuery.of(context).size.height / 5,
                   width: MediaQuery.of(context).size.width / 2.3,
+                  child: Icon(Icons.monetization_on,
+                      size: 50, color: Colors.white),
                 ),
               ],
             ),
@@ -96,6 +109,8 @@ class _HomeState extends State<Home> {
                     ),
                     height: MediaQuery.of(context).size.height / 5,
                     width: MediaQuery.of(context).size.width / 2.3,
+                    child:
+                        Icon(Icons.electric_car, size: 50, color: Colors.white),
                   ),
                 ),
                 Container(
@@ -107,6 +122,7 @@ class _HomeState extends State<Home> {
                   ),
                   height: MediaQuery.of(context).size.height / 5,
                   width: MediaQuery.of(context).size.width / 2.3,
+                  child: Icon(Icons.chat, size: 50, color: Colors.white),
                 ),
               ],
             ),
