@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors
 
-// import 'package:brewapp/Screens/Home/profile.dart';
-// import 'package:brewapp/Screens/Home/setting.dart';
+import 'package:brewapp/Screens/Home/profile.dart';
+import 'package:brewapp/Screens/Home/setting.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -131,15 +131,42 @@ class _HomeState extends State<Home> {
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: GestureDetector(
+                child: Icon(
+                  Icons.home,
+                  size: 30,
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Home()));
+                },
+              ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: GestureDetector(
+                child: Icon(
+                  Icons.person,
+                  size: 30,
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Profile()));
+                },
+              ),
               label: 'Profile',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: GestureDetector(
+                child: Icon(
+                  Icons.settings,
+                  size: 30,
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Settings()));
+                },
+              ),
               label: 'Settings',
             )
           ],
