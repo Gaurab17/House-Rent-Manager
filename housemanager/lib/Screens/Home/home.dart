@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_print
 
 import 'package:brewapp/Screens/Home/profile.dart';
 import 'package:brewapp/Screens/Home/setting.dart';
@@ -13,11 +13,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // final List<Widget> _options = [
-  //   Home(),
-  //   Profile(),
-  //   Settings(),
-  // ];
   int _selectedIndex = 0;
 
   final AuthService _auth = AuthService();
@@ -35,20 +30,25 @@ class _HomeState extends State<Home> {
           title: const Text('Home Manager'),
           centerTitle: true,
           backgroundColor: Colors.blue,
-          leading: const Icon(Icons.home),
+          leading: const Icon(Icons.menu),
           actions: [
             TextButton.icon(
               onPressed: () async {
                 await _auth.SignOut();
               },
-              icon: Icon(Icons.logout),
-              label: Text('Logout'),
+              label: Text(
+                'Logout',
+                style: TextStyle(color: Colors.white),
+              ),
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
         body: Column(
           children: [
-            // _options[_selectedIndex],
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(

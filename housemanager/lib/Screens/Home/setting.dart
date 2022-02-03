@@ -1,37 +1,37 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print, use_key_in_widget_constructors
 
+import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    return SettingsList(
-      sections: [
-        SettingsSection(
-          title: Text('Common'),
-          tiles: <SettingsTile>[
-            SettingsTile.navigation(
-              leading: Icon(Icons.language),
-              title: Text('Language'),
-              value: Text('English'),
-            ),
-            SettingsTile.switchTile(
-              onToggle: (value) {},
-              initialValue: true,
-              leading: Icon(Icons.format_paint),
-              title: Text('Enable custom theme'),
-            ),
-            SettingsTile.navigation(
-              leading: Icon(Icons.logout),
-              title: Text('Language'),
-              value: Text('English'),
-            ),
-          ],
-        ),
-      ],
+    return Scaffold(
+      body: ListView(
+        children: [
+          ListTile(
+            title: Text('Account'),
+            subtitle: Text('Password and Security'),
+            leading: Icon(Icons.account_box),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('Information and policies'),
+            subtitle: Text('Its description'),
+            leading: Icon(Icons.info),
+            onTap: () {},
+          ),
+          // ListTile(
+          //   title: Text('Logout'),
+          //   leading: Icon(Icons.logout_rounded),
+          //   onTap: () async {
+          //     await _auth.SignOut();
+          //   },
+          // ),
+        ],
+      ),
     );
   }
 }
