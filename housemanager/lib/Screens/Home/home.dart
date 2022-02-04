@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(left: 16.0, right: 16),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.black87,
                       borderRadius: BorderRadius.all(
                         Radius.circular(18),
                       ),
@@ -109,8 +109,14 @@ class _HomeState extends State<Home> {
                     ),
                     height: MediaQuery.of(context).size.height / 5,
                     width: MediaQuery.of(context).size.width / 2.3,
-                    child:
-                        Icon(Icons.electric_car, size: 50, color: Colors.white),
+                    child: GestureDetector(
+                      child: Icon(Icons.electric_car,
+                          size: 50, color: Colors.white),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Profile()));
+                      },
+                    ),
                   ),
                 ),
                 Container(

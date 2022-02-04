@@ -1,37 +1,34 @@
-// ignore_for_file: prefer_const_constructors, avoid_print, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print, use_key_in_widget_constructors, non_constant_identifier_names, must_be_immutable
 
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
   final AuthService _auth = AuthService();
+  List<String> Something = [
+    'Account and security',
+    'Information',
+    'About Us',
+    'Logout'
+  ];
+  List<Icon> iconItems = [
+    Icon(Icons.account_box),
+    Icon(Icons.info),
+    Icon(Icons.contact_page),
+    Icon(Icons.logout)
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text('Account'),
-            subtitle: Text('Password and Security'),
-            leading: Icon(Icons.account_box),
-            onTap: () {},
-          ),
-          ListTile(
-            title: Text('Information and policies'),
-            subtitle: Text('Its description'),
-            leading: Icon(Icons.info),
-            onTap: () {},
-          ),
-          // ListTile(
-          //   title: Text('Logout'),
-          //   leading: Icon(Icons.logout_rounded),
-          //   onTap: () async {
-          //     await _auth.SignOut();
-          //   },
-          // ),
-        ],
-      ),
+      body: ListView.builder(
+          itemCount: Something.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(Something[index]),
+              leading: iconItems[index],
+            );
+          }),
     );
   }
 }
