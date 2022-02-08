@@ -1,13 +1,13 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, empty_statements
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, empty_statements, prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
-import 'package:brewapp/Screens/Authenticate/signin.dart';
+// import 'package:brewapp/Screens/Authenticate/signin.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
-import 'package:brewapp/Shared/decorations.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:brewapp/Shared/decorations.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/painting.dart';
+// import 'package:flutter/rendering.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
