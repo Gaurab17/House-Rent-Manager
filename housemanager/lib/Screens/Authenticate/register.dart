@@ -3,11 +3,7 @@
 // import 'package:brewapp/Screens/Authenticate/signin.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
-// import 'package:brewapp/Shared/decorations.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/painting.dart';
-// import 'package:flutter/rendering.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
