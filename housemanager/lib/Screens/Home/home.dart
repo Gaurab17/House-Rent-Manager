@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
           TextButton.icon(
             onPressed: () {},
             icon: Icon(
-              Icons.home,
+              Icons.notifications,
               color: Colors.black,
             ),
             label: Text(''),
