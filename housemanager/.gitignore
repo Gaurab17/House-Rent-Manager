@@ -44,3 +44,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#Personal Access Tokens
+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

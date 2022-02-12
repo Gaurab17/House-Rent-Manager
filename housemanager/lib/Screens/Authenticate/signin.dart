@@ -39,13 +39,13 @@ class _SignInState extends State<SignIn> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/home.jpg',
-                          height: 250,
-                          width: 250,
+                          'assets/images/rent.gif',
+                          height: 300,
+                          width: 300,
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Center(
                         child: Text(

@@ -37,13 +37,13 @@ class _RegisterState extends State<Register> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/home.jpg',
-                          height: 250,
-                          width: 250,
+                          'assets/images/rent.gif',
+                          height: 300,
+                          width: 300,
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Center(
                         child: Text(
@@ -55,7 +55,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
