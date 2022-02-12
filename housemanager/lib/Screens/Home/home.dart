@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         backgroundColor: Color(0xffffffff),
         leading: Icon(
-          Icons.home,
+          Icons.menu,
           color: Color(0xff212225),
         ),
         actions: [
