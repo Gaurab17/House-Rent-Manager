@@ -35,7 +35,7 @@ class _Widget1State extends State<Widget1> {
                 ],
               ),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 54, 149, 238),
+                color: Color.fromARGB(255, 179, 179, 218),
                 borderRadius: BorderRadius.all(
                   Radius.circular(18),
                 ),
@@ -55,7 +55,7 @@ class _Widget1State extends State<Widget1> {
               child: GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Color(0xFF363740),
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
@@ -91,7 +91,7 @@ class _Widget1State extends State<Widget1> {
             GestureDetector(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Color(0xFF363740),
                   borderRadius: BorderRadius.all(
                     Radius.circular(18),
                   ),
@@ -135,7 +135,7 @@ class _Widget1State extends State<Widget1> {
               child: GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Color(0xFF363740),
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
@@ -171,7 +171,7 @@ class _Widget1State extends State<Widget1> {
             GestureDetector(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Color(0xFF363740),
                   borderRadius: BorderRadius.all(
                     Radius.circular(18),
                   ),

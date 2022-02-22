@@ -1,9 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_print
-import 'package:brewapp/Screens/Home/HomeUISections/setting.dart';
+import 'package:brewapp/Screens/Home/HomeUISections/bottomnavigation.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'HomeUISections/profile.dart';
 import 'UtiilsHome/homeButtonsWidget.dart';
 
 class Home extends StatefulWidget {
@@ -35,9 +33,11 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              await _auth.SignOut();
+            },
             icon: Icon(
-              Icons.notifications,
+              Icons.logout_rounded,
               color: Colors.black,
             ),
             label: Text(''),
@@ -45,40 +45,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Widget1(),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SpeedDial(
-            animatedIcon: AnimatedIcons.menu_close,
-            backgroundColor: Color.fromARGB(255, 54, 149, 238),
-            children: [
-              SpeedDialChild(
-                child: const Icon(Icons.face),
-                label: 'profile',
-                backgroundColor: Color.fromARGB(255, 80, 92, 248),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Profile()));
-                },
-              ),
-              SpeedDialChild(
-                child: const Icon(Icons.settings),
-                label: 'Settings',
-                backgroundColor: Color.fromARGB(255, 80, 92, 248),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
-                },
-              ),
-              SpeedDialChild(
-                child: const Icon(Icons.logout),
-                label: 'Logout',
-                backgroundColor: Color.fromARGB(255, 80, 92, 248),
-                onTap: () async {
-                  await _auth.SignOut();
-                },
-              ),
-            ]),
-      ),
+      bottomNavigationBar: BasicBottomNavBar(),
     );
   }
 }
