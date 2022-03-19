@@ -3,6 +3,7 @@
 // import 'package:brewapp/Screens/Authenticate/signin.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -22,6 +23,7 @@ class _RegisterState extends State<Register> {
   bool loading = false;
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
     return loading
         ? Spinkit()
         : Scaffold(
@@ -124,6 +126,11 @@ class _RegisterState extends State<Register> {
                               dynamic result =
                                   await _auth.RegisterWithEmailAndPassword(
                                       email, password);
+                              users
+                                  .add({"gmail": email})
+                                  .then((value) => print("User added"))
+                                  .catchError((error) =>
+                                      print('Error in creating collection'));
                               if (result == null) {
                                 setState(() {
                                   error = 'Enter valid email';
