@@ -119,8 +119,10 @@ class _Widget1State extends State<Widget1> {
                 ),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Payment()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => KhaltiPaymentPage()));
               },
             ),
           ],

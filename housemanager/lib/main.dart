@@ -4,6 +4,7 @@ import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -21,28 +22,41 @@ class MyApp extends StatelessWidget {
     return StreamProvider.value(
       value: AuthService().user,
       initialData: null,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Container(
-          child: SplashScreen(
-              seconds: 4,
-              navigateAfterSeconds: Wrapper(),
-              title: Text(
-                'Welcome to Home Manager',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+      child: KhaltiScope(
+          publicKey: "test_public_key_180e7f68d1014c72bfa8adfbf30f92ce",
+          builder: (context, navigatorKey) {
+            return MaterialApp(
+              navigatorKey: navigatorKey,
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('ne', 'NP'),
+              ],
+              localizationsDelegates: const [
+                KhaltiLocalizations.delegate,
+              ],
+              debugShowCheckedModeBanner: false,
+              home: Container(
+                child: SplashScreen(
+                    seconds: 4,
+                    navigateAfterSeconds: Wrapper(),
+                    title: Text(
+                      'Welcome to Home Manager',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                    image: Image.asset(
+                      'assets/images/home.jpg',
+                      height: 250,
+                      width: 250,
+                    ),
+                    backgroundColor: Colors.white,
+                    styleTextUnderTheLoader: TextStyle(),
+                    photoSize: 100.0,
+                    onClick: () => print("Flutter "),
+                    loaderColor: Colors.red),
               ),
-              image: Image.asset(
-                'assets/images/home.jpg',
-                height: 250,
-                width: 250,
-              ),
-              backgroundColor: Colors.white,
-              styleTextUnderTheLoader: TextStyle(),
-              photoSize: 100.0,
-              onClick: () => print("Flutter "),
-              loaderColor: Colors.red),
-        ),
-      ),
+            );
+          }),
     );
   }
 }
