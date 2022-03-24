@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/rent.gif',
+                          'assets/images/Rent.gif',
                           height: 300,
                           width: 300,
                         ),

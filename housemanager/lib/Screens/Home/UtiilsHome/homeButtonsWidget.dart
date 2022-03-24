@@ -166,7 +166,7 @@ class _Widget1State extends State<Widget1> {
                 ),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Complaint()));
+                      MaterialPageRoute(builder: (context) => Complaints()));
                 },
               ),
             ),
