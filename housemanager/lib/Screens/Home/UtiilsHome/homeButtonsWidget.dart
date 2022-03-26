@@ -118,8 +118,8 @@ class _Widget1State extends State<Widget1> {
                   ),
                 ),
               ),
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => KhaltiPaymentPage()));
@@ -164,8 +164,8 @@ class _Widget1State extends State<Widget1> {
                     ),
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(context,
+                onTap: () async {
+                  await Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Complaints()));
                 },
               ),

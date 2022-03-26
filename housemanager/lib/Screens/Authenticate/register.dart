@@ -19,7 +19,9 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  String username = '';
   String error = '';
+  Type contact = int;
   bool loading = false;
   @override
   Widget build(BuildContext context) {
@@ -35,25 +37,39 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/Rent.gif',
+                          'assets/images/real.gif',
                           height: 300,
                           width: 300,
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
                       ),
                       Center(
                         child: Text(
                           'Register to Home Manager!',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 26.0, right: 22),
+                        child: TextFormField(
+                          onChanged: (val) {
+                            setState(() {
+                              username = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Username',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16))),
                         ),
                       ),
                       SizedBox(
@@ -70,13 +86,30 @@ class _RegisterState extends State<Register> {
                             });
                           },
                           decoration: InputDecoration(
-                              hintText: 'Email Here',
+                              hintText: 'Email',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 26.0, right: 22),
+                        child: TextFormField(
+                          onChanged: (val) {
+                            setState(() {
+                              contact = val as Type;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Contact Number',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16))),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
@@ -97,10 +130,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       ElevatedButton(
                           child: Text(
@@ -140,16 +170,15 @@ class _RegisterState extends State<Register> {
                             }
                           }),
                       SizedBox(
-                        height: 20,
+                        height: 2,
                       ),
                       Text(
                         error,
                         style: TextStyle(
                           color: Colors.red,
-                          fontSize: 16,
+                          fontSize: 8,
                         ),
                       ),
-                      SizedBox(height: 10),
                       Text(
                         "Already have an account?",
                         style: TextStyle(
@@ -159,7 +188,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 5,
                       ),
                       GestureDetector(
                         child: Text(

@@ -22,6 +22,7 @@ class _SignInState extends State<SignIn> {
   String password = '';
   String error = '';
   bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return loading
@@ -39,13 +40,10 @@ class _SignInState extends State<SignIn> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/Rent.gif',
+                          'assets/images/real.gif',
                           height: 300,
                           width: 300,
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
                       ),
                       Center(
                         child: Text(
@@ -177,11 +175,22 @@ class _SignInState extends State<SignIn> {
                         },
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 10,
+                      ),
+                      Text(
+                        "Doesn't have an account?",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
                       ),
                       GestureDetector(
                         child: Text(
-                          "Doesn't have account? Sign up",
+                          'Click here',
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w900,
@@ -190,10 +199,7 @@ class _SignInState extends State<SignIn> {
                         onTap: () {
                           widget.toggleView();
                         },
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
+                      )
                     ],
                   ),
                 ),
