@@ -27,7 +27,11 @@ class _RegisterState extends State<Register> {
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
 
+  // String email = '';
+  // String password = '';
+  // String username = '';
   String error = '';
+  // Type contact = int;
   bool loading = false;
   @override
   Widget build(BuildContext context) {
@@ -50,7 +54,7 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       Center(
                         child: Image.asset(
@@ -59,14 +63,11 @@ class _RegisterState extends State<Register> {
                           width: 200,
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Center(
                         child: Text(
                           'Register to Home Manager!',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               fontFamily: "Dosis"),
@@ -114,6 +115,8 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: 10,
                       ),
+                     
+                     
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
@@ -154,6 +157,8 @@ class _RegisterState extends State<Register> {
                       SizedBox(
                         height: 10,
                       ),
+                      
+                     
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
@@ -205,16 +210,15 @@ class _RegisterState extends State<Register> {
                             }
                           }),
                       SizedBox(
-                        height: 5,
+                        height: 2,
                       ),
                       Text(
                         error,
                         style: TextStyle(
                           color: Colors.red,
-                          fontSize: 16,
+                          fontSize: 8,
                         ),
                       ),
-                      SizedBox(height: 10),
                       Text(
                         "Already have an account?",
                         style: TextStyle(
@@ -225,7 +229,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 5,
                       ),
                       GestureDetector(
                         child: Text(
