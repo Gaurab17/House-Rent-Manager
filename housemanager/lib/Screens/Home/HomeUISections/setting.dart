@@ -3,7 +3,7 @@
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
 
-class Settings extends StatelessWidget {
+class SettingsApp extends StatelessWidget {
   final AuthService _auth = AuthService();
   List<String> Something = [
     'Account and security',

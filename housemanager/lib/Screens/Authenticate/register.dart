@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, empty_statements, prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
 // import 'package:brewapp/Screens/Authenticate/signin.dart';
+import 'package:brewapp/Screens/Home/home.dart';
+import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -15,15 +18,27 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final AuthService _auth = AuthService();
+  // final AuthService _auth = AuthService();
+  final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
+  final fulllnameEditingController = new TextEditingController();
+  final addressEditingController = new TextEditingController();
+  final mobilenumberEditingController = new TextEditingController();
+  final emailEditingController = new TextEditingController();
+  final passwordEditingController = new TextEditingController();
+
   String error = '';
   bool loading = false;
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
+    final fullnameField = TextFormField();
+    final adddressField = TextFormField();
+    final mobilenumberField = TextFormField();
+    final emailField = TextFormField();
+    final passwordField = TextFormField();
+    
+
+    
     return loading
         ? Spinkit()
         : Scaffold(
@@ -39,9 +54,9 @@ class _RegisterState extends State<Register> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/rent.gif',
-                          height: 300,
-                          width: 300,
+                          'assets/images/house12.gif',
+                          height: 200,
+                          width: 200,
                         ),
                       ),
                       SizedBox(
@@ -53,7 +68,47 @@ class _RegisterState extends State<Register> {
                           style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black),
+                              color: Colors.black,
+                              fontFamily: "Dosis"),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ), Padding(
+                        padding: const EdgeInsets.only(left: 26.0, right: 22),
+                        child: TextFormField(
+                          validator: (val) =>
+                              val!.isEmpty ? 'Enter Full Name' : null,
+                          onChanged: (val) {
+                            setState(() {
+                              fulllnameEditingController.text = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person,color: Colors.red,),
+                              hintText: 'Enter your Full Name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16))),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                       Padding(
+                        padding: const EdgeInsets.only(left: 26.0, right: 22),
+                        child: TextFormField(
+                          validator: (val) =>
+                              val!.isEmpty ? 'Enter Your Valid Email' : null,
+                          onChanged: (val) {
+                            setState(() {
+                              emailEditingController.text = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                             prefixIcon: Icon(Icons.email,color: Colors.red,),
+                              hintText: 'Email Your Valid Email',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16))),
                         ),
                       ),
                       SizedBox(
@@ -63,20 +118,41 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
                           validator: (val) =>
-                              val!.isEmpty ? 'Enter email' : null,
+                              val!.isEmpty ? 'Enter your mobile number' : null,
                           onChanged: (val) {
                             setState(() {
-                              email = val;
+                              mobilenumberEditingController.text = val;
                             });
                           },
                           decoration: InputDecoration(
-                              hintText: 'Email Here',
+                             prefixIcon: Icon(Icons.phone,color: Colors.red,),
+                              hintText: 'Mobile Number',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16))),
+                        ),
+                      ),
+                       SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 26.0, right: 22),
+                        child: TextFormField(
+                          validator: (val) =>
+                              val!.isEmpty ? 'Enter your Address' : null,
+                          onChanged: (val) {
+                            setState(() {
+                              addressEditingController.text = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                             prefixIcon: Icon(Icons.location_city,color: Colors.red,),
+                              hintText: 'Your Address',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
@@ -87,21 +163,20 @@ class _RegisterState extends State<Register> {
                           obscureText: true,
                           onChanged: (val) {
                             setState(() {
-                              password = val;
+                              passwordEditingController.text = val;
                             });
                           },
                           decoration: InputDecoration(
+                             prefixIcon: Icon(Icons.lock,color: Colors.red,),
                               hintText: 'Enter Password',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                     
                       ElevatedButton(
                           child: Text(
                             'Register',
@@ -118,29 +193,19 @@ class _RegisterState extends State<Register> {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18.0),
                                       side: BorderSide(color: Colors.blue)))),
-                          onPressed: () async {
+                          onPressed: (){
                             if (_formKey.currentState!.validate()) {
                               setState(() {
                                 loading = true;
                               });
                               dynamic result =
-                                  await _auth.RegisterWithEmailAndPassword(
-                                      email, password);
-                              users
-                                  .add({"gmail": email})
-                                  .then((value) => print("User added"))
-                                  .catchError((error) =>
-                                      print('Error in creating collection'));
-                              if (result == null) {
-                                setState(() {
-                                  error = 'Enter valid email';
-                                  loading = false;
-                                });
-                              }
+                                  signUp(emailEditingController.text, passwordEditingController.text);
+                              
+                              
                             }
                           }),
                       SizedBox(
-                        height: 20,
+                        height: 5,
                       ),
                       Text(
                         error,
@@ -153,9 +218,10 @@ class _RegisterState extends State<Register> {
                       Text(
                         "Already have an account?",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
+                          fontFamily: "Dosis"
                         ),
                       ),
                       SizedBox(
@@ -165,7 +231,7 @@ class _RegisterState extends State<Register> {
                         child: Text(
                           'Click here',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 15,
                               fontWeight: FontWeight.w900,
                               color: Colors.blue),
                         ),
@@ -178,6 +244,40 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
+
+            
           );
+      
+  }
+
+  signUp(String email, String password)async{
+    if(_formKey.currentState!.validate()){
+      await _auth.createUserWithEmailAndPassword(email: email, password: password)
+      .then((value) => {
+        postDetailsToFirestore()
+      });
+
+
+    }
+
+  }
+
+  postDetailsToFirestore()async{
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    UserModel userModel = UserModel();
+
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.fullname = fulllnameEditingController.text;
+    userModel.address = addressEditingController.text;
+    userModel.mobilenumber = mobilenumberEditingController.text;
+    await firebaseFirestore
+    .collection("customers")
+    .doc(user.uid)
+    .set(userModel.toMap());
+    Navigator.pushAndRemoveUntil((context), MaterialPageRoute(builder: (context)=> Home()), (route) => false);
+
+
   }
 }

@@ -5,6 +5,7 @@ import 'package:brewapp/Screens/Home/HomeUISections/complaint.dart';
 import 'package:brewapp/Screens/Home/HomeUISections/electricity.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:brewapp/Screens/chats/welcome_screen.dart';
 
 // import '../HomeUISections/profile.dart';
 
@@ -24,18 +25,78 @@ class _Widget1State extends State<Widget1> {
           padding: const EdgeInsets.all(20.0),
           child: Expanded(
             child: Container(
+              
+              
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TableCalendar(
+                    
+                      
                       calendarFormat: CalendarFormat.twoWeeks,
                       focusedDay: DateTime.now(),
                       firstDay: DateTime(1990),
-                      lastDay: DateTime(2050))
+                      lastDay: DateTime(2050),
+                      headerStyle: const HeaderStyle(
+                      titleTextStyle:
+                      TextStyle(color: Colors.white, fontSize: 20.0),
+                      decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10))),
+                      
+                      
+
+                      formatButtonTextStyle:
+                      TextStyle(color: Colors.red, fontSize: 16.0),
+                      formatButtonDecoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5.0),
+                        ), ),
+                      leftChevronIcon: Icon(
+                        Icons.chevron_left,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      rightChevronIcon: Icon(
+                        Icons.chevron_right,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      ),
+                      
+                      weekendDays: [DateTime.saturday],
+                      daysOfWeekStyle: const DaysOfWeekStyle(
+                      // Weekend days color (Sat,Sun)
+                      
+                      weekendStyle: TextStyle(color: Colors.red),
+                      ),
+                      calendarStyle: const CalendarStyle(
+                      // Weekend dates color (Sat & Sun Column)
+                      weekendTextStyle: TextStyle(color: Colors.red),
+                      // highlighted color for today
+                      todayDecoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      // highlighted color for selected day
+                      selectedDecoration: BoxDecoration(
+                        color: Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                      )
+                      
+                      ),
+                     
+                      
                 ],
+                
               ),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 179, 179, 218),
+                color: Colors.white,
+                border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.all(
                   Radius.circular(18),
                 ),
@@ -55,7 +116,7 @@ class _Widget1State extends State<Widget1> {
               child: GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFF363740),
+                    color: Colors.blueAccent,
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
@@ -66,13 +127,13 @@ class _Widget1State extends State<Widget1> {
                     padding: const EdgeInsets.only(top: 40),
                     child: Column(
                       children: [
-                        Icon(Icons.electrical_services,
+                        Icon(Icons.history,
                             size: 50, color: Colors.white),
                         SizedBox(
                           height: 30,
                         ),
                         Text(
-                          "Electricity Bills",
+                          "History",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -83,6 +144,7 @@ class _Widget1State extends State<Widget1> {
                   ),
                 ),
                 onTap: () {
+                  
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Electricity()));
                 },
@@ -91,7 +153,7 @@ class _Widget1State extends State<Widget1> {
             GestureDetector(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFF363740),
+                  color: Colors.blueAccent,
                   borderRadius: BorderRadius.all(
                     Radius.circular(18),
                   ),
@@ -119,6 +181,7 @@ class _Widget1State extends State<Widget1> {
                 ),
               ),
               onTap: () {
+                
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -137,7 +200,7 @@ class _Widget1State extends State<Widget1> {
               child: GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFF363740),
+                    color: Colors.blueAccent,
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
@@ -173,7 +236,7 @@ class _Widget1State extends State<Widget1> {
             GestureDetector(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFF363740),
+                  color: Colors.blueAccent,
                   borderRadius: BorderRadius.all(
                     Radius.circular(18),
                   ),
@@ -201,7 +264,7 @@ class _Widget1State extends State<Widget1> {
               ),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Chat()));
+                    context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
               },
             ),
           ],

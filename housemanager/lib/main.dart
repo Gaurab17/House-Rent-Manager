@@ -40,9 +40,12 @@ class MyApp extends StatelessWidget {
                     seconds: 4,
                     navigateAfterSeconds: Wrapper(),
                     title: Text(
-                      'Welcome to Home Manager',
+                      'Welcome to Home Manager'
+                      ,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20.0),
+                          fontWeight: FontWeight.bold, fontSize: 20.0,
+                          fontFamily: "Dosis"
+                          ),
                     ),
                     image: Image.asset(
                       'assets/images/home.jpg',

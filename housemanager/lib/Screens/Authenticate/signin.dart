@@ -39,7 +39,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/rent.gif',
+                          'assets/images/house12.gif',
                           height: 300,
                           width: 300,
                         ),
@@ -53,7 +53,10 @@ class _SignInState extends State<SignIn> {
                           style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black),
+                              color: Colors.black,
+                              fontFamily: "Dosis",
+                              ),
+                              
                         ),
                       ),
                       SizedBox(
@@ -62,15 +65,17 @@ class _SignInState extends State<SignIn> {
                       Padding(
                         padding: const EdgeInsets.only(left: 12.0, right: 12),
                         child: TextFormField(
+                          
                           validator: (val) =>
-                              val!.isEmpty ? 'Enter email' : null,
+                              val!.isEmpty ? 'Enter your email' : null,
                           onChanged: (val) {
                             setState(() {
                               email = val;
                             });
                           },
                           decoration: InputDecoration(
-                              hintText: 'Email ',
+                            prefixIcon: Icon(Icons.email,color: Colors.red,),
+                              hintText: 'Enter your valid email ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
@@ -82,7 +87,7 @@ class _SignInState extends State<SignIn> {
                         padding: const EdgeInsets.only(left: 12.0, right: 12),
                         child: TextFormField(
                           validator: (val) => val!.length < 6
-                              ? 'Enter chars more than 6'
+                              ? 'Enter characters more than 6'
                               : null,
                           obscureText: true,
                           onChanged: (val) {
@@ -91,7 +96,8 @@ class _SignInState extends State<SignIn> {
                             });
                           },
                           decoration: InputDecoration(
-                              hintText: 'Password ',
+                            prefixIcon: Icon(Icons.lock,color: Colors.red,),
+                              hintText: 'Enter your password ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
