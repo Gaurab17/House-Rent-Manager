@@ -1,4 +1,5 @@
-// ignore_for_file: file_names, unused_label
+// ignore_for_file: file_names, unused_label, avoid_print
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 
@@ -12,9 +13,14 @@ class KhaltiPaymentPage extends StatefulWidget {
 class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
   TextEditingController amountController = TextEditingController();
 
+  CollectionReference payHistory =
+      FirebaseFirestore.instance.collection('history');
+
   getAmt() {
     return int.parse(amountController.text) * 100; // Converting to paisa
   }
+
+  var now = DateTime.now().toString().substring(0, 10);
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +80,14 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                       );
                       ScaffoldMessenger.of(context)
                           .showSnackBar(successsnackBar);
+                      payHistory
+                          .add({
+                            "payment date": now.toString(),
+                            "payment history": (getAmt() / 100).toString(),
+                          })
+                          .then((value) => print("Payment Date added"))
+                          .catchError(
+                              (error) => print('Error in creating collection'));
                     },
                     onFailure: (fa) {
                       const failedsnackBar = SnackBar(

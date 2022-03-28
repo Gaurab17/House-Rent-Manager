@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ late User loggedInUser;
 
 class ChatScreen extends StatefulWidget {
   static const id = "ChatScreen";
+
+  const ChatScreen({Key? key}) : super(key: key);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -29,7 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void getUserDetail() async {
     try {
       final createdUser = await _auth.currentUser;
-      
+
       if (createdUser != null) {
         loggedInUser = createdUser;
       }
@@ -43,22 +46,12 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: null,
-        actions: <Widget>[
-          IconButton(
-            
-              icon: Icon(Icons.logout,color: Colors.redAccent,size: 30,),
-              onPressed: () {
-
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
-        ],
-        title: Text('⚡️HouseMessages',
-        style: TextStyle(
-          color:Colors.white,
-          fontWeight: FontWeight.bold,
-
-        ),
+        title: const Text(
+          '⚡️House Chat',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.lightBlueAccent,
@@ -83,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
-                  FlatButton(
+                  ElevatedButton(
                     onPressed: () {
                       messageTextEditingController.clear();
                       _firestore.collection('messages').add({
@@ -92,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         'time': FieldValue.serverTimestamp() //add this
                       });
                     },
-                    child: Text(
+                    child: const Text(
                       'Send',
                       style: kSendButtonTextStyle,
                     ),
@@ -113,11 +106,11 @@ class StreambuilderClass extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
         stream: _firestore
             .collection('messages')
-            .orderBy('time', descending: false)//add this
+            .orderBy('time', descending: false) //add this
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.blueAccent,
               ),
@@ -144,7 +137,8 @@ class StreambuilderClass extends StatelessWidget {
           return Expanded(
             child: ListView(
                 reverse: true,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 children: messageBubbles),
           );
         });
@@ -157,11 +151,12 @@ class MessageBubble extends StatelessWidget {
   final bool? isMe;
   final Timestamp? time; // add this
 
-  MessageBubble({this.text, this.sender, this.isMe, this.time}); //add the variable  in this constructor
+  const MessageBubble({Key? key, this.text, this.sender, this.isMe, this.time})
+      : super(key: key); //add the variable  in this constructor
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment:
             isMe! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -169,31 +164,27 @@ class MessageBubble extends StatelessWidget {
           Text(
             ' $sender',
             //  ${DateTime.fromMillisecondsSinceEpoch(time.seconds * 1000)}',
-            style: TextStyle(color: Colors.black54, fontSize: 12),
+            style: const TextStyle(color: Colors.black54, fontSize: 12),
           ),
-         
-            
-            
-            
+
           //   ' $sender',
           // '${DateTime.fromMillisecondsSinceEpoch(time!.seconds * 1000)}',
-            // add this only if you want to show the time along with the email. If you dont want this then don't add this DateTime thing
-      
-          
+          // add this only if you want to show the time along with the email. If you dont want this then don't add this DateTime thing
+
           Material(
             color: isMe! ? Colors.blueAccent : Colors.white,
             borderRadius: isMe!
-                ? BorderRadius.only(
+                ? const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30))
-                : BorderRadius.only(
+                : const BorderRadius.only(
                     topRight: Radius.circular(30),
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30)),
             elevation: 6,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Text(
                 text!,
                 style: TextStyle(

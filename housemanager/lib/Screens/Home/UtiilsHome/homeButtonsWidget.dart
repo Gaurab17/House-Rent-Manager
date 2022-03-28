@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_print
 import 'package:brewapp/Screens/Home/HomeUISections/Payment.dart';
-import 'package:brewapp/Screens/Home/HomeUISections/chat.dart';
+// import 'package:brewapp/Screens/Home/HomeUISections/chat.dart';
 import 'package:brewapp/Screens/Home/HomeUISections/complaint.dart';
-import 'package:brewapp/Screens/Home/HomeUISections/electricity.dart';
+import 'package:brewapp/Screens/Home/HomeUISections/history.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:brewapp/Screens/chats/welcome_screen.dart';
@@ -25,74 +25,62 @@ class _Widget1State extends State<Widget1> {
           padding: const EdgeInsets.all(20.0),
           child: Expanded(
             child: Container(
-              
-              
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TableCalendar(
-                    
-                      
                       calendarFormat: CalendarFormat.twoWeeks,
                       focusedDay: DateTime.now(),
                       firstDay: DateTime(1990),
                       lastDay: DateTime(2050),
                       headerStyle: const HeaderStyle(
-                      titleTextStyle:
-                      TextStyle(color: Colors.white, fontSize: 20.0),
-                      decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10))),
-                      
-                      
-
-                      formatButtonTextStyle:
-                      TextStyle(color: Colors.red, fontSize: 16.0),
-                      formatButtonDecoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5.0),
-                        ), ),
-                      leftChevronIcon: Icon(
-                        Icons.chevron_left,
-                        color: Colors.white,
-                        size: 28,
+                        titleTextStyle:
+                            TextStyle(color: Colors.white, fontSize: 20.0),
+                        decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10))),
+                        formatButtonTextStyle:
+                            TextStyle(color: Colors.red, fontSize: 16.0),
+                        formatButtonDecoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5.0),
+                          ),
+                        ),
+                        leftChevronIcon: Icon(
+                          Icons.chevron_left,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        rightChevronIcon: Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                          size: 28,
+                        ),
                       ),
-                      rightChevronIcon: Icon(
-                        Icons.chevron_right,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      ),
-                      
                       weekendDays: [DateTime.saturday],
                       daysOfWeekStyle: const DaysOfWeekStyle(
-                      // Weekend days color (Sat,Sun)
-                      
-                      weekendStyle: TextStyle(color: Colors.red),
+                        // Weekend days color (Sat,Sun)
+
+                        weekendStyle: TextStyle(color: Colors.red),
                       ),
                       calendarStyle: const CalendarStyle(
-                      // Weekend dates color (Sat & Sun Column)
-                      weekendTextStyle: TextStyle(color: Colors.red),
-                      // highlighted color for today
-                      todayDecoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      // highlighted color for selected day
-                      selectedDecoration: BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
-                      ),
-                      )
-                      
-                      ),
-                     
-                      
+                        // Weekend dates color (Sat & Sun Column)
+                        weekendTextStyle: TextStyle(color: Colors.red),
+                        // highlighted color for today
+                        todayDecoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        // highlighted color for selected day
+                        selectedDecoration: BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                      )),
                 ],
-                
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -127,8 +115,7 @@ class _Widget1State extends State<Widget1> {
                     padding: const EdgeInsets.only(top: 40),
                     child: Column(
                       children: [
-                        Icon(Icons.history,
-                            size: 50, color: Colors.white),
+                        Icon(Icons.history, size: 50, color: Colors.white),
                         SizedBox(
                           height: 30,
                         ),
@@ -144,9 +131,8 @@ class _Widget1State extends State<Widget1> {
                   ),
                 ),
                 onTap: () {
-                  
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Electricity()));
+                      MaterialPageRoute(builder: (context) => History()));
                 },
               ),
             ),
@@ -262,8 +248,8 @@ class _Widget1State extends State<Widget1> {
                 ),
               ),
               onTap: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()));
               },
             ),
           ],
