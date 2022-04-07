@@ -54,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.blue,
       ),
       body: SafeArea(
         child: Column(
@@ -85,6 +85,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         'time': FieldValue.serverTimestamp() //add this
                       });
                     },
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
                     child: const Text(
                       'Send',
                       style: kSendButtonTextStyle,

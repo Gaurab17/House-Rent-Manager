@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, unused_label, avoid_print
+import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 
@@ -13,16 +15,35 @@ class KhaltiPaymentPage extends StatefulWidget {
 class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
   TextEditingController amountController = TextEditingController();
 
-  CollectionReference payHistory =
-      FirebaseFirestore.instance.collection('history');
+  payHistory() {
+    FirebaseFirestore.instance
+        .collection('customers')
+        .doc(loggedInUser!.uid)
+        .collection("history");
+  }
 
   getAmt() {
     return int.parse(amountController.text) * 100; // Converting to paisa
   }
 
   var now = DateTime.now().toString().substring(0, 10);
+  User? customers = FirebaseAuth.instance.currentUser;
+  UserModel? loggedInUser = UserModel();
 
   @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance
+        .collection("customers")
+        .doc(customers!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.formMap(value.data());
+      setState(() {});
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +101,7 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                       );
                       ScaffoldMessenger.of(context)
                           .showSnackBar(successsnackBar);
-                      payHistory
+                      payHistory()
                           .add({
                             "payment date": now.toString(),
                             "payment history": (getAmt() / 100).toString(),

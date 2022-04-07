@@ -68,10 +68,11 @@ class _Widget1State extends State<Widget1> {
                       ),
                       calendarStyle: const CalendarStyle(
                         // Weekend dates color (Sat & Sun Column)
-                        weekendTextStyle: TextStyle(color: Colors.red),
+                        weekendTextStyle:
+                            TextStyle(color: Color.fromARGB(255, 51, 50, 50)),
                         // highlighted color for today
                         todayDecoration: BoxDecoration(
-                          color: Colors.red,
+                          color: Color.fromARGB(255, 54, 209, 7),
                           shape: BoxShape.circle,
                         ),
                         // highlighted color for selected day
@@ -84,10 +85,21 @@ class _Widget1State extends State<Widget1> {
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.all(
                   Radius.circular(18),
                 ),
+                boxShadow: [
+                  //background color of box
+                  BoxShadow(
+                    color: Color.fromARGB(255, 112, 112, 112),
+                    blurRadius: 25.0, // soften the shadow
+                    spreadRadius: 5.0, //extend the shadow
+                    offset: Offset(
+                      10.0, // Move to right 10  horizontally
+                      10.0, // Move to bottom 10 Vertically
+                    ),
+                  )
+                ],
               ),
               height: MediaQuery.of(context).size.height / 3.5,
               width: MediaQuery.of(context).size.width,

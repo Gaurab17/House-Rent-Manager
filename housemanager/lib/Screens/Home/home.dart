@@ -17,26 +17,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   int _currentIndex = 0;
-  final tabs =[
-    Center(child:Widget1()),
-    Center(child:ProfileUI2()),
+  final tabs = [
+    Center(child: Widget1()),
+    Center(child: ProfileUI2()),
     // Center(child:Text("hello This is your Profile page")),
     // Center(child:Text("hello This is your Setting  page")),
-    Center(child:SettingsApp()),
-    
-
-
+    Center(child: SettingsApp()),
   ];
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // body: Widget1(),
 
-      body:tabs[_currentIndex],
-     
-      bottomNavigationBar:BottomNavigationBar(
+      body: tabs[_currentIndex],
+
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
@@ -52,50 +48,53 @@ class _HomeState extends State<Home> {
             label: 'Settings',
           ),
         ],
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
-
         },
-      
-      selectedItemColor: Colors.deepOrange,
-      unselectedItemColor: Colors.blueAccent,
-      iconSize: 30,
+        selectedItemColor: Color.fromARGB(255, 52, 100, 204),
+        unselectedItemColor: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+        iconSize: 30,
       ),
-     
-    
+
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         foregroundColor: Colors.blue,
-        
         elevation: 0.0,
         title: const Text(
           'Home Manager',
-          style: TextStyle(color: Color(0xff212225)),
+          style: TextStyle(
+              color: Color(
+                0xff212225,
+              ),
+              fontSize: 24,
+              fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xffffffff),
-        leading: Icon(
-          Icons.home,
-          color: Color(0xff212225),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: Icon(
+            Icons.home,
+            color: Color(0xff212225),
+          ),
         ),
         actions: [
           TextButton.icon(
-            onPressed: () async {
-              await _auth.SignOut();
-            },
+            // onPressed: () async {
+            //   await _auth.SignOut();
+            // },
             icon: Icon(
-              Icons.logout_rounded,
+              Icons.notifications,
               color: Colors.black,
             ),
-            label: Text('Logout'),
+            label: Text(''),
+            onPressed: () {},
           ),
         ],
       ),
-     
-     
     );
   }
 }

@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_unnecessary_containers
 
+import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class History extends StatefulWidget {
@@ -11,13 +13,25 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  final Stream<QuerySnapshot> historyStream =
-      FirebaseFirestore.instance.collection('history').snapshots();
-
   // For Deleting User
   CollectionReference history =
       FirebaseFirestore.instance.collection('history');
-  @override
+
+  User? customers = FirebaseAuth.instance.currentUser;
+  UserModel? loggedInUser = UserModel();
+
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("customers")
+        .doc(customers!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.formMap(value.data());
+      setState(() {});
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +39,11 @@ class _HistoryState extends State<History> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: historyStream,
+          stream: FirebaseFirestore.instance
+              .collection("customers")
+              .doc(loggedInUser!.uid)
+              .collection("history")
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
@@ -47,7 +65,7 @@ class _HistoryState extends State<History> {
                   child: Table(
                     border: TableBorder.all(),
                     columnWidths: const <int, TableColumnWidth>{
-                      1: FixedColumnWidth(160),
+                      1: FixedColumnWidth(180),
                       2: FixedColumnWidth(130),
                     },
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -56,6 +74,7 @@ class _HistoryState extends State<History> {
                         children: [
                           TableCell(
                             child: Container(
+                              height: 50,
                               color: Colors.blue,
                               child: const Center(
                                 child: Text(
@@ -70,6 +89,7 @@ class _HistoryState extends State<History> {
                           ),
                           TableCell(
                             child: Container(
+                              height: 50,
                               color: Colors.blue,
                               child: const Center(
                                 child: Text(
@@ -87,17 +107,27 @@ class _HistoryState extends State<History> {
                       for (var i = 0; i < storedocs.length; i++) ...[
                         TableRow(
                           children: [
-                            TableCell(
-                              child: Center(
-                                  child: Text(storedocs[i]['payment date'],
-                                      style: const TextStyle(fontSize: 20.0))),
+                            Container(
+                              height: 40,
+                              color: Colors.white,
+                              child: TableCell(
+                                child: Center(
+                                    child: Text(storedocs[i]['payment date'],
+                                        style:
+                                            const TextStyle(fontSize: 20.0))),
+                              ),
                             ),
-                            TableCell(
-                              child: Center(
-                                  child: Text(
-                                      storedocs[i]['payment history']
-                                          .toString(),
-                                      style: const TextStyle(fontSize: 20.0))),
+                            Container(
+                              height: 40,
+                              color: Colors.white,
+                              child: TableCell(
+                                child: Center(
+                                    child: Text(
+                                        storedocs[i]['payment history']
+                                            .toString(),
+                                        style:
+                                            const TextStyle(fontSize: 20.0))),
+                              ),
                             ),
                           ],
                         ),

@@ -1,109 +1,11 @@
 // ignore_for_file: avoid_unnecessary_containers, avoid_print, unnecessary_string_interpolations
-
+import 'package:brewapp/Screens/Models/user_model.dart';
+import 'package:brewapp/Screens/chats/chatscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-// class Complaints extends StatefulWidget {
-//   const Complaints({Key? key}) : super(key: key);
-
-//   @override
-//   _ComplaintsState createState() => _ComplaintsState();
-// }
-
-// class _ComplaintsState extends State<Complaints> {
-//   late String value = '';
-
-//   final Stream<QuerySnapshot> complaintdata =
-//       FirebaseFirestore.instance.collection("complaints").snapshots();
-
-//   deleteComplaint(item) {
-//     DocumentReference documentReference =
-//         FirebaseFirestore.instance.collection("complaints").doc(item);
-
-//     documentReference
-//         .delete()
-//         .whenComplete(() => print("deleted successfully"));
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     CollectionReference complaint =
-//         FirebaseFirestore.instance.collection("complaints");
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Complaints'),
-//         centerTitle: true,
-//       ),
-//       body: Center(
-//         child: SingleChildScrollView(
-//           child: Column(children: [
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextFormField(
-//                 onChanged: (val) {
-//                   value = val;
-//                 },
-//                 decoration: const InputDecoration(
-//                   hintText: 'Add complaints here',
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(12.0),
-//               child: Expanded(
-//                 child: Container(
-//                     height: MediaQuery.of(context).size.height,
-//                     width: MediaQuery.of(context).size.width,
-//                     color: Colors.white,
-//                     child: StreamBuilder<QuerySnapshot>(
-//                         stream: complaintdata,
-//                         builder: (
-//                           BuildContext context,
-//                           AsyncSnapshot<QuerySnapshot> snapshot,
-//                         ) {
-//                           if (snapshot.hasData) {
-//                             final data = snapshot.requireData;
-//                             return ListView.builder(
-//                                 itemCount: data.size,
-//                                 itemBuilder: (context, index) {
-//                                   return Center(
-//                                     child: ListTile(
-//                                         title: Text(
-//                                           "${data.docs[index]['complaints']}",
-//                                           style: const TextStyle(
-//                                               fontSize: 20,
-//                                               fontWeight: FontWeight.bold,
-//                                               color: Colors.black),
-//                                         ),
-//                                         trailing: IconButton(
-//                                           icon: const Icon(Icons.delete),
-//                                           color: Colors.red,
-//                                           onPressed: () {},
-//                                         )),
-//                                   );
-//                                 });
-//                           } else {
-//                             return const Text("Loading Data error");
-//                           }
-//                         })),
-//               ),
-//             ),
-//           ]),
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () async {
-//           value;
-//           complaint
-//               .add({"complaints": value})
-//               .then((value) => print("Complaints added"))
-//               .catchError((error) => print('Error in creating collection'));
-//         },
-//         child: const Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }
+// final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class Complaints extends StatefulWidget {
   const Complaints({
@@ -118,15 +20,13 @@ class _ComplaintsState extends State<Complaints> {
   List complaintsLists = List.empty();
   String title = "";
   String description = "";
-  @override
-  void initState() {
-    super.initState();
-    complaintsLists = ["Hello", "Hey There"];
-  }
 
   createToDo() {
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection("complaints").doc(title);
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection("customers")
+        .doc(loggedInUser!.uid)
+        .collection("complaints")
+        .doc(title);
 
     Map<String, String> complaints = {
       "complaints": title,
@@ -139,15 +39,34 @@ class _ComplaintsState extends State<Complaints> {
   }
 
   deleteTodo(item) {
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection("complaints").doc(item);
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection("customers")
+        .doc(loggedInUser!.uid)
+        .collection("complaints")
+        .doc(item);
 
     documentReference
         .delete()
         .whenComplete(() => print("deleted successfully"));
   }
 
+  User? customers = FirebaseAuth.instance.currentUser;
+  UserModel? loggedInUser = UserModel();
+
   @override
+  void initState() {
+    super.initState();
+    complaintsLists = ["Hello", "Hey There"];
+    FirebaseFirestore.instance
+        .collection("customers")
+        .doc(customers!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.formMap(value.data());
+      setState(() {});
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -155,7 +74,11 @@ class _ComplaintsState extends State<Complaints> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("complaints").snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("customers")
+            .doc(loggedInUser!.uid)
+            .collection("complaints")
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Text('Something went wrong');

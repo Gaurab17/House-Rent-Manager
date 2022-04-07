@@ -25,6 +25,7 @@ class _RegisterState extends State<Register> {
   final addressEditingController = TextEditingController();
   final mobilenumberEditingController = TextEditingController();
   final emailEditingController = TextEditingController();
+  final houseIdEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
   // String email = '';
@@ -39,6 +40,7 @@ class _RegisterState extends State<Register> {
     final adddressField = TextFormField();
     final mobilenumberField = TextFormField();
     final emailField = TextFormField();
+    final houseId = TextFormField();
     final passwordField = TextFormField();
 
     return loading
@@ -56,7 +58,7 @@ class _RegisterState extends State<Register> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/house12.gif',
+                          'assets/images/rent.gif',
                           height: 200,
                           width: 200,
                         ),
@@ -90,6 +92,29 @@ class _RegisterState extends State<Register> {
                                 color: Colors.red,
                               ),
                               hintText: 'Enter your Full Name',
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16))),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 26.0, right: 22),
+                        child: TextFormField(
+                          validator: (val) =>
+                              val!.isEmpty ? 'Enter House ID' : null,
+                          onChanged: (val) {
+                            setState(() {
+                              houseIdEditingController.text = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.house,
+                                color: Colors.red,
+                              ),
+                              hintText: 'Enter your House ID',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
@@ -227,29 +252,31 @@ class _RegisterState extends State<Register> {
                           fontSize: 8,
                         ),
                       ),
-                      Text(
-                        "Already have an account?",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                            fontFamily: "Dosis"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Already have an account? ",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                                fontFamily: "Dosis"),
+                          ),
+                          GestureDetector(
+                            child: Text(
+                              'Click here',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.blue),
+                            ),
+                            onTap: () {
+                              widget.toggleView();
+                            },
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      GestureDetector(
-                        child: Text(
-                          'Click here',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.blue),
-                        ),
-                        onTap: () {
-                          widget.toggleView();
-                        },
-                      )
                     ],
                   ),
                 ),
@@ -273,6 +300,7 @@ class _RegisterState extends State<Register> {
 
     userModel.email = user!.email;
     userModel.uid = user.uid;
+
     userModel.fullname = fulllnameEditingController.text;
     userModel.address = addressEditingController.text;
     userModel.mobilenumber = mobilenumberEditingController.text;

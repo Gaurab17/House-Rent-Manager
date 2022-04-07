@@ -9,26 +9,34 @@ class SettingsApp extends StatelessWidget {
     'Account and security',
     'Information',
     'About Us',
-    'Logout'
   ];
   List<Icon> iconItems = [
     Icon(Icons.account_box),
     Icon(Icons.info),
     Icon(Icons.contact_page),
-    Icon(Icons.logout)
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-          itemCount: Something.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(Something[index]),
-              leading: iconItems[index],
-            );
-          }),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height / 2,
+              color: Colors.white,
+              child: ListTile(
+                title: Text("Logout"),
+                leading: Icon(Icons.logout_rounded),
+                onTap: () async {
+                  await _auth.SignOut();
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
