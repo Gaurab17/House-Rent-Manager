@@ -15,13 +15,6 @@ class KhaltiPaymentPage extends StatefulWidget {
 class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
   TextEditingController amountController = TextEditingController();
 
-  payHistory() {
-    FirebaseFirestore.instance
-        .collection('customers')
-        .doc(loggedInUser!.uid)
-        .collection("history");
-  }
-
   getAmt() {
     return int.parse(amountController.text) * 100; // Converting to paisa
   }
@@ -101,7 +94,10 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                       );
                       ScaffoldMessenger.of(context)
                           .showSnackBar(successsnackBar);
-                      payHistory()
+                      FirebaseFirestore.instance
+                          .collection('customers')
+                          .doc(loggedInUser!.uid)
+                          .collection("history")
                           .add({
                             "payment date": now.toString(),
                             "payment history": (getAmt() / 100).toString(),
