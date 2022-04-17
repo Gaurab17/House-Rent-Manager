@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
 
+var globalVariable;
+
 class KhaltiPaymentPage extends StatefulWidget {
   const KhaltiPaymentPage({Key? key}) : super(key: key);
 
@@ -23,18 +25,34 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
   User? customers = FirebaseAuth.instance.currentUser;
   UserModel? loggedInUser = UserModel();
 
-  @override
-  void initState() {
-    super.initState();
+  hidGenerate() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("userDetails")
+        .doc(customers!.uid)
+        .get();
 
-    FirebaseFirestore.instance
-        .collection("customers")
+    print(snapshot.id);
+
+    Map data = snapshot.data() as Map;
+
+    globalVariable = data['hid'];
+    print("baaka" + data['hid']);
+    await FirebaseFirestore.instance
+        .collection("houseIDs")
+        .doc(globalVariable)
+        .collection("tenants")
         .doc(customers!.uid)
         .get()
         .then((value) {
       loggedInUser = UserModel.formMap(value.data());
       setState(() {});
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    hidGenerate();
   }
 
   Widget build(BuildContext context) {
@@ -95,7 +113,9 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(successsnackBar);
                       FirebaseFirestore.instance
-                          .collection('customers')
+                          .collection("houseIDs")
+                          .doc(globalVariable)
+                          .collection('tenants')
                           .doc(loggedInUser!.uid)
                           .collection("history")
                           .add({

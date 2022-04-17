@@ -28,12 +28,13 @@ class _RegisterState extends State<Register> {
   final houseIdEditingController = TextEditingController();
   final passwordEditingController = TextEditingController();
 
-  // String email = '';
+  // String houseID = '';
   // String password = '';
   // String username = '';
   String error = '';
   // Type contact = int;
   bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     final fullnameField = TextFormField();
@@ -65,7 +66,7 @@ class _RegisterState extends State<Register> {
                       ),
                       Center(
                         child: Text(
-                          'Register to Home Manager!',
+                          "Register To House Manager",
                           style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -103,7 +104,7 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
                           validator: (val) =>
-                              val!.isEmpty ? 'Enter House ID' : null,
+                              val!.isEmpty ? 'Enter your House ID' : null,
                           onChanged: (val) {
                             setState(() {
                               houseIdEditingController.text = val;
@@ -111,10 +112,10 @@ class _RegisterState extends State<Register> {
                           },
                           decoration: InputDecoration(
                               prefixIcon: Icon(
-                                Icons.house,
+                                Icons.phone,
                                 color: Colors.red,
                               ),
-                              hintText: 'Enter your House ID',
+                              hintText: 'House ID',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
@@ -300,13 +301,19 @@ class _RegisterState extends State<Register> {
 
     userModel.email = user!.email;
     userModel.uid = user.uid;
-
+    userModel.hid = houseIdEditingController.text;
     userModel.fullname = fulllnameEditingController.text;
     userModel.address = addressEditingController.text;
     userModel.mobilenumber = mobilenumberEditingController.text;
     await firebaseFirestore
-        .collection("customers")
-        .doc(user.uid)
+        .collection("houseIDs")
+        .doc(userModel.hid)
+        .collection("tenants")
+        .doc(userModel.uid)
+        .set(userModel.toMap());
+    await FirebaseFirestore.instance
+        .collection("userDetails")
+        .doc(userModel.uid)
         .set(userModel.toMap());
     Navigator.pushAndRemoveUntil((context),
         MaterialPageRoute(builder: (context) => Home()), (route) => false);

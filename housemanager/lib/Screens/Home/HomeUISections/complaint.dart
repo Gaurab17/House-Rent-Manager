@@ -1,9 +1,12 @@
-// ignore_for_file: avoid_unnecessary_containers, avoid_print, unnecessary_string_interpolations
+// ignore_for_file: avoid_unnecessary_containers, avoid_print, unnecessary_string_interpolations, prefer_typing_uninitialized_variables
 import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:brewapp/Screens/chats/chatscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+var globalVariable;
 
 // final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -20,13 +23,53 @@ class _ComplaintsState extends State<Complaints> {
   List complaintsLists = List.empty();
   String title = "";
   String description = "";
+  String globalHid = "";
+  String? houseGlobe;
+
+  // getGlobalHouseId() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final counter = prefs.getInt('globalHouseID') ?? 100;
+  //   globalHid = counter.toString();
+
+  //   print('${counter.toString()} from complaint page');
+  //   return counter.toString();
+  // }
+
+  User? customers = FirebaseAuth.instance.currentUser;
+  UserModel? loggedInUser = UserModel();
+
+  hidGenerate() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("userDetails")
+        .doc(customers!.uid)
+        .get();
+
+    print(snapshot.id);
+
+    Map data = snapshot.data() as Map;
+
+    globalVariable = data['hid'];
+    print("baaka" + data['hid']);
+    await FirebaseFirestore.instance
+        .collection("houseIDs")
+        .doc(globalVariable)
+        .collection("tenants")
+        .doc(customers!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.formMap(value.data());
+      setState(() {});
+    });
+  }
 
   createToDo() {
     DocumentReference documentReference = FirebaseFirestore.instance
-        .collection("customers")
-        .doc(loggedInUser!.uid)
+        .collection("houseIDs")
+        .doc(globalVariable)
+        .collection("tenants")
+        .doc(customers!.uid)
         .collection("complaints")
-        .doc(title);
+        .doc();
 
     Map<String, String> complaints = {
       "complaints": title,
@@ -40,8 +83,10 @@ class _ComplaintsState extends State<Complaints> {
 
   deleteTodo(item) {
     DocumentReference documentReference = FirebaseFirestore.instance
-        .collection("customers")
-        .doc(loggedInUser!.uid)
+        .collection("houseIDs")
+        .doc(globalVariable)
+        .collection("tenants")
+        .doc(customers!.uid)
         .collection("complaints")
         .doc(item);
 
@@ -50,24 +95,19 @@ class _ComplaintsState extends State<Complaints> {
         .whenComplete(() => print("deleted successfully"));
   }
 
-  User? customers = FirebaseAuth.instance.currentUser;
-  UserModel? loggedInUser = UserModel();
-
   @override
   void initState() {
+    // final prefs =  SharedPreferences.getInstance();
+    // final counter = prefs.getInt('globalHouseID') ?? 100;
+
+    // getGlobalHouseId();
     super.initState();
     complaintsLists = ["Hello", "Hey There"];
-    FirebaseFirestore.instance
-        .collection("customers")
-        .doc(customers!.uid)
-        .get()
-        .then((value) {
-      loggedInUser = UserModel.formMap(value.data());
-      setState(() {});
-    });
+    hidGenerate();
   }
 
   Widget build(BuildContext context) {
+    // getGlobalHouseId();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Complaints"),
@@ -75,7 +115,9 @@ class _ComplaintsState extends State<Complaints> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection("customers")
+            .collection("houseIDs")
+            .doc(globalVariable)
+            .collection("tenants")
             .doc(loggedInUser!.uid)
             .collection("complaints")
             .snapshots(),
@@ -107,7 +149,7 @@ class _ComplaintsState extends State<Complaints> {
                             color: Colors.red,
                             onPressed: () {
                               setState(() {
-                                //complaintsLists.removeAt(index);
+                                // complaintsLists.removeAt(index);
                                 deleteTodo((documentSnapshot != null)
                                     ? (documentSnapshot["complaints"])
                                     : "");

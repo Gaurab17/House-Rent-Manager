@@ -1,7 +1,11 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_print
 
 import 'package:brewapp/Screens/Services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'UtiilsHome/homeButtonsWidget.dart';
 import 'package:brewapp/Screens/Home/HomeUISections/profile.dart';
 import 'package:brewapp/Screens/Home/UtiilsHome/homeButtonsWidget.dart';
@@ -15,6 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  User? customers = FirebaseAuth.instance.currentUser;
   final AuthService _auth = AuthService();
   int _currentIndex = 0;
   final tabs = [
@@ -25,8 +30,32 @@ class _HomeState extends State<Home> {
     Center(child: SettingsApp()),
   ];
 
+  // geting houseId and storing it to global variable.
+  validate() async {
+    if (customers?.uid != null) {
+      print(customers?.uid);
+
+      CollectionReference houseIds =
+          FirebaseFirestore.instance.collection('userDetails');
+      var userHouseId = await houseIds.doc(customers!.uid).get().then((value) {
+        Map data = value.data() as Map;
+        print(data['hid']);
+        return data['hid'];
+      });
+
+      print("........ ${userHouseId} this is user house id ok?????");
+
+      // obtain shared preferences
+      final prefs = await SharedPreferences.getInstance();
+
+      // set value
+      prefs.setInt('globalHouseID', int.parse(userHouseId));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    validate();
     return Scaffold(
       // body: Widget1(),
 

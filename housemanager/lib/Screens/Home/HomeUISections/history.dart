@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+var globalVariable;
+
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
 
@@ -13,23 +15,43 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  // For Deleting User
-  CollectionReference history =
-      FirebaseFirestore.instance.collection('history');
+  CollectionReference history = FirebaseFirestore.instance
+      .collection('houseIDs')
+      .doc()
+      .collection("tenants")
+      .doc()
+      .collection("history");
 
   User? customers = FirebaseAuth.instance.currentUser;
   UserModel? loggedInUser = UserModel();
 
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
-        .collection("customers")
+  hidGenerate() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("userDetails")
+        .doc(customers!.uid)
+        .get();
+
+    print(snapshot.id);
+
+    Map data = snapshot.data() as Map;
+
+    globalVariable = data['hid'];
+    print("baaka" + data['hid']);
+    await FirebaseFirestore.instance
+        .collection("houseIDs")
+        .doc(globalVariable)
+        .collection("tenants")
         .doc(customers!.uid)
         .get()
         .then((value) {
       loggedInUser = UserModel.formMap(value.data());
       setState(() {});
     });
+  }
+
+  void initState() {
+    super.initState();
+    hidGenerate();
   }
 
   Widget build(BuildContext context) {
@@ -40,7 +62,9 @@ class _HistoryState extends State<History> {
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              .collection("customers")
+              .collection("houseIDs")
+              .doc(globalVariable)
+              .collection("tenants")
               .doc(loggedInUser!.uid)
               .collection("history")
               .snapshots(),

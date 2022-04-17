@@ -1,8 +1,7 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
 
-import "package:animated_text_kit/animated_text_kit.dart";
 // import "package:housechat/components/rounded_button.dart";
 
 import 'package:brewapp/Screens/chats/chatscreen.dart';
@@ -74,44 +73,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           photoSize: 100.0,
           onClick: () => print("Flutter "),
           loaderColor: Colors.red),
-      // Padding(
-      //   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     crossAxisAlignment: CrossAxisAlignment.stretch,
-      //     children: <Widget>[
-      //       Row(
-      //         children: <Widget>[
-      //           Hero(
-      //             tag: 'logo',
-      //             child: SizedBox(
-      //               child: Image.asset(
-      //                 'assets/images/chat.gif',
-      //               ),
-      //               // height: controller.value,
-      //               height: 60.0,
-      //             ),
-      //           ),
-      //           AnimatedTextKit(
-      //             animatedTexts: [
-      //               TypewriterAnimatedText("Hi!! Let's Chat Here... ",
-      //                   textStyle: const TextStyle(
-      //                     color: Colors.redAccent,
-      //                     fontSize: 30.0,
-      //                     fontFamily: "Dosis",
-      //                     fontWeight: FontWeight.bold,
-      //                   ),
-      //                   speed: const Duration(milliseconds: 100)),
-      //             ],
-      //             totalRepeatCount: 20,
-      //           ),
-      //         ],
-      //       ),
-      //       const SizedBox(
-      //         height: 80.0,
-      //       ),
-
-      // ],
     );
   }
 }

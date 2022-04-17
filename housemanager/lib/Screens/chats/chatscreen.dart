@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:brewapp/Screens/Services/constants.dart';
@@ -8,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 late User loggedInUser;
+var globalVariable;
 
 class ChatScreen extends StatefulWidget {
   static const id = "ChatScreen";
@@ -23,10 +25,38 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final _auth = FirebaseAuth.instance;
 
+  User? customers = FirebaseAuth.instance.currentUser;
+  UserModel? loggedInUser = UserModel();
+
+  hidGenerate() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("userDetails")
+        .doc(customers!.uid)
+        .get();
+
+    print(snapshot.id);
+
+    Map data = snapshot.data() as Map;
+
+    globalVariable = data['hid'];
+    print("baaka" + data['hid']);
+    await FirebaseFirestore.instance
+        .collection("houseIDs")
+        .doc(globalVariable)
+        .collection("tenants")
+        .doc(customers!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.formMap(value.data());
+      setState(() {});
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getUserDetail();
+    hidGenerate();
   }
 
   void getUserDetail() async {
@@ -34,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
       final createdUser = await _auth.currentUser;
 
       if (createdUser != null) {
-        loggedInUser = createdUser;
+        loggedInUser = customers as UserModel?;
       }
     } catch (e) {
       print(e);
@@ -79,8 +109,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   ElevatedButton(
                     onPressed: () {
                       messageTextEditingController.clear();
-                      _firestore.collection('messages').add({
-                        'sender': loggedInUser.email,
+                      _firestore
+                          .collection('houseIDs')
+                          .doc(globalVariable)
+                          .collection("messages")
+                          .add({
+                        'sender': loggedInUser!.email,
                         'text': messageText,
                         'time': FieldValue.serverTimestamp() //add this
                       });
@@ -108,7 +142,9 @@ class StreambuilderClass extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: _firestore
-            .collection('messages')
+            .collection('houseIDs')
+            .doc(globalVariable)
+            .collection("messages")
             .orderBy('time', descending: false) //add this
             .snapshots(),
         builder: (context, snapshot) {
