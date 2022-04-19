@@ -40,7 +40,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/house12.gif',
+                          'assets/images/rent.gif',
                           height: 300,
                           width: 300,
                         ),
@@ -49,12 +49,11 @@ class _SignInState extends State<SignIn> {
                         child: Text(
                           'Login to Home Manager',
                           style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontFamily: "Dosis",
-                              ),
-                              
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontFamily: "Dosis",
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -63,7 +62,6 @@ class _SignInState extends State<SignIn> {
                       Padding(
                         padding: const EdgeInsets.only(left: 12.0, right: 12),
                         child: TextFormField(
-                          
                           validator: (val) =>
                               val!.isEmpty ? 'Enter your email' : null,
                           onChanged: (val) {
@@ -72,7 +70,10 @@ class _SignInState extends State<SignIn> {
                             });
                           },
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.email,color: Colors.red,),
+                              prefixIcon: Icon(
+                                Icons.email,
+                                color: Colors.red,
+                              ),
                               hintText: 'Enter your valid email ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
@@ -94,7 +95,10 @@ class _SignInState extends State<SignIn> {
                             });
                           },
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock,color: Colors.red,),
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: Colors.red,
+                              ),
                               hintText: 'Enter your password ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),

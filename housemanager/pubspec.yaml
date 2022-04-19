@@ -45,6 +45,7 @@ dependencies:
   khalti_flutter: ^2.0.2
   animated_text_kit: ^4.2.1
   modal_progress_hud: ^0.1.3
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
