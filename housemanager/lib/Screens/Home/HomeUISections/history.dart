@@ -44,7 +44,7 @@ class _HistoryState extends State<History> {
         .doc(customers!.uid)
         .get()
         .then((value) {
-      loggedInUser = UserModel.fromMap(value.data());
+      loggedInUser = UserModel.formMap(value.data());
       setState(() {});
     });
   }

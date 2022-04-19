@@ -44,7 +44,7 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
         .doc(customers!.uid)
         .get()
         .then((value) {
-      loggedInUser = UserModel.fromMap(value.data());
+      loggedInUser = UserModel.formMap(value.data());
       setState(() {});
     });
   }

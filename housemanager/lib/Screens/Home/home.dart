@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'UtiilsHome/homeButtonsWidget.dart';
 import 'package:brewapp/Screens/Home/HomeUISections/profile.dart';
 import 'package:brewapp/Screens/Home/UtiilsHome/homeButtonsWidget.dart';
@@ -55,10 +55,10 @@ class _HomeState extends State<Home> {
       print("........ ${userHouseId} this is user house id ok?????");
 
       // obtain shared preferences
-      final prefs = await SharedPreferences.getInstance();
+      // final prefs = await SharedPreferences.getInstance();
 
       // set value
-      prefs.setInt('globalHouseID', int.parse(userHouseId));
+      // prefs.setInt('globalHouseID', int.parse(userHouseId));
     }
   }
 
