@@ -4,20 +4,23 @@ class UserModel{
   String? fullname;
   String? mobilenumber;
   String? address;
+  
 
   UserModel({this.uid,this.email,this.fullname,this.mobilenumber,this.address});
-  factory UserModel.formMap(map){
+  factory UserModel.fromMap(map){
     return UserModel(
       uid: map['uid'],
       email:map['email'],
       fullname: map['fullname'],
       mobilenumber: map['mobilenumber'],
       address: map['address'],
+      
 
     );
   }
   Map<String,dynamic>toMap(){
-    return {'uid':uid,
+    return {
+      'uid':uid,
     'email':email,
     'fullname':fullname,
     'mobilenumber':mobilenumber,

@@ -44,14 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         leading: null,
         actions: <Widget>[
-          IconButton(
-            
-              icon: Icon(Icons.logout,color: Colors.redAccent,size: 30,),
-              onPressed: () {
-
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
+          
         ],
         title: Text('⚡️HouseMessages',
         style: TextStyle(

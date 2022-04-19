@@ -5,6 +5,7 @@ import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 // import 'package:flutter/painting.dart';
 
 class SignIn extends StatefulWidget {
@@ -22,12 +23,31 @@ class _SignInState extends State<SignIn> {
   String password = '';
   String error = '';
   bool loading = false;
+  bool _obscureText = false;
+
+   void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return loading
         ? Spinkit()
         : Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.purple,
+            
+            centerTitle: true,
+            title: Text("Login Screen",
+            style: TextStyle(
+              fontFamily: "Dosis",
+              fontWeight: FontWeight.bold,
+
+            ),
+            ),
+          ),
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               child: Container(
@@ -40,7 +60,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/house12.gif',
+                          'assets/images/real.gif',
                           height: 300,
                           width: 300,
                         ),
@@ -87,7 +107,7 @@ class _SignInState extends State<SignIn> {
                           validator: (val) => val!.length < 6
                               ? 'Enter characters more than 6'
                               : null,
-                          obscureText: true,
+                          obscureText: _obscureText,
                           onChanged: (val) {
                             setState(() {
                               password = val;
@@ -95,7 +115,18 @@ class _SignInState extends State<SignIn> {
                           },
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.lock,color: Colors.red,),
+                            suffixIcon: IconButton(
+                              icon: new Icon(Icons.visibility),
+                              highlightColor: Colors.pink,
+                              onPressed: (){_toggle();},
+                            ),
+                            
+                            
                               hintText: 'Enter your password ',
+                              
+                              
+                              
+                              
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
@@ -125,11 +156,13 @@ class _SignInState extends State<SignIn> {
                         width: MediaQuery.of(context).size.width / 3,
                         height: 40,
                         child: ElevatedButton(
+                          
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               setState(() {
                                 loading = true;
                               });
+                               
                               dynamic result =
                                   await _auth.SignInWithEmailAndPassword(
                                       email, password);
@@ -138,9 +171,13 @@ class _SignInState extends State<SignIn> {
                                   error = 'Enter valid data';
                                   loading = false;
                                 });
+                               
                               }
+                              
                             }
+                            
                           },
+                          
                           child: Text(
                             'Login',
                             style: TextStyle(
@@ -148,45 +185,28 @@ class _SignInState extends State<SignIn> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            side: BorderSide(width: 2.0, color: Colors.blue),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(32.0),
-                            ),
+                          style: ButtonStyle(
+                             backgroundColor: 
+                                  MaterialStateProperty.all(Colors.purple),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(color: Colors.purple)))),
+                            
+                            
                           ),
                         ),
-                      ),
+                      
                       SizedBox(
                         height: 8,
                       ),
-                      Text(error, style: TextStyle(color: Colors.red)),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                        child: Text(
-                          'Sign In as Guest',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xff7274db),
-                          ),
-                        ),
-                        onTap: () async {
-                          dynamic result = await _auth.SignInAnon();
-                          if (result != null) {
-                            print('Sign In success');
-                            print(result.uid);
-                          } else {
-                            print('Error in anonymous signin');
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                     
                       Text(
                         "Doesn't have an account?",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
+                          fontFamily: "Dosis",
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),

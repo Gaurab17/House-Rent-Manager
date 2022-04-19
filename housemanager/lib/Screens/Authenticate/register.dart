@@ -8,13 +8,14 @@ import 'package:brewapp/Screens/Services/loadingwid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:brewapp/Screens/Models/housemodel.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
   Register({required this.toggleView});
 
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegisterState createState() => _RegisterState(); 
 }
 
 class _RegisterState extends State<Register> {
@@ -26,7 +27,7 @@ class _RegisterState extends State<Register> {
   final mobilenumberEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
-
+  HouseModel loggedInHouse = HouseModel();
   // String email = '';
   // String password = '';
   // String username = '';
@@ -42,10 +43,20 @@ class _RegisterState extends State<Register> {
     final passwordField = TextFormField();
     
 
-    
+
     return loading
         ? Spinkit()
         : Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.purple,
+            centerTitle: true,
+            title: Text("Registration Screen",
+            style: TextStyle(
+              fontFamily: "Dosis",
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ),
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               child: Container(
@@ -58,7 +69,7 @@ class _RegisterState extends State<Register> {
                       ),
                       Center(
                         child: Image.asset(
-                          'assets/images/house12.gif',
+                          'assets/images/real.gif',
                           height: 200,
                           width: 200,
                         ),
@@ -74,7 +85,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 15,
                       ), Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
@@ -191,13 +202,13 @@ class _RegisterState extends State<Register> {
                                 color: Colors.white),
                           ),
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.blue),
+                              backgroundColor: 
+                                  MaterialStateProperty.all(Colors.purple),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.blue)))),
+                                      side: BorderSide(color: Colors.purple)))),
                           onPressed: (){
                             if (_formKey.currentState!.validate()) {
                               setState(() {

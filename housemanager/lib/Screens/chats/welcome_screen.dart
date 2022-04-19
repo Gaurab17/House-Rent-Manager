@@ -45,6 +45,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.purple,
         centerTitle: true,
         title: Text("Welcome to Chat",
         style: TextStyle(
