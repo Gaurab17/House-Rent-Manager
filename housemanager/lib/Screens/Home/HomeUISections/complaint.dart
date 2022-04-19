@@ -69,7 +69,7 @@ class _ComplaintsState extends State<Complaints> {
         .collection("tenants")
         .doc(customers!.uid)
         .collection("complaints")
-        .doc();
+        .doc(title);
 
     Map<String, String> complaints = {
       "complaints": title,
@@ -82,7 +82,7 @@ class _ComplaintsState extends State<Complaints> {
   }
 
   deleteTodo(item) {
-    DocumentReference documentReference = FirebaseFirestore.instance
+    DocumentReference delete = FirebaseFirestore.instance
         .collection("houseIDs")
         .doc(globalVariable)
         .collection("tenants")
@@ -90,17 +90,11 @@ class _ComplaintsState extends State<Complaints> {
         .collection("complaints")
         .doc(item);
 
-    documentReference
-        .delete()
-        .whenComplete(() => print("deleted successfully"));
+    delete.delete().whenComplete(() => print("deleted successfully"));
   }
 
   @override
   void initState() {
-    // final prefs =  SharedPreferences.getInstance();
-    // final counter = prefs.getInt('globalHouseID') ?? 100;
-
-    // getGlobalHouseId();
     super.initState();
     complaintsLists = ["Hello", "Hey There"];
     hidGenerate();
