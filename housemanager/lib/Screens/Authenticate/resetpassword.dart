@@ -25,6 +25,17 @@ class _ResetpswState extends State<Resetpsw> {
     return loading
         ? Spinkit()
         : Scaffold(
+          appBar: AppBar(
+            
+            centerTitle: true,
+            title: Text("Reset Password Page",
+            style: TextStyle(
+              fontFamily: "Dosis",
+              fontWeight: FontWeight.bold,
+
+            ),
+            ),
+          ),
             backgroundColor: Colors.white,
             body: Container(
               child: Form(
@@ -39,6 +50,7 @@ class _ResetpswState extends State<Resetpsw> {
                         'Reset Password',
                         style: TextStyle(
                             fontSize: 25,
+                            fontFamily: "Dosis",
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
@@ -56,7 +68,7 @@ class _ResetpswState extends State<Resetpsw> {
                           });
                         },
                         decoration: InputDecoration(
-                          hintText: 'Email ',
+                          hintText: 'Enter your valid email ',
                         ),
                       ),
                     ),

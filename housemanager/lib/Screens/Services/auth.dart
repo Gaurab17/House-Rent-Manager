@@ -2,7 +2,7 @@
 
 import 'package:brewapp/Screens/Models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:brewapp/Screens/Models/user_model.dart';
 
 class AuthService {
@@ -59,8 +59,8 @@ class AuthService {
 
 // function to remove global houseId from sharedPreference
   removeHouseId() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove('counter');
+    // final prefs = await SharedPreferences.getInstance();
+    // prefs.remove('counter');
   }
 
   // sign out

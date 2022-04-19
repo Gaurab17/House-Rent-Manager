@@ -4,7 +4,6 @@ import 'package:brewapp/Screens/chats/chatscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 var globalVariable;
 
@@ -20,6 +19,7 @@ class Complaints extends StatefulWidget {
 }
 
 class _ComplaintsState extends State<Complaints> {
+  int counter = 0;
   List complaintsLists = List.empty();
   String title = "";
   String description = "";
@@ -92,6 +92,30 @@ class _ComplaintsState extends State<Complaints> {
 
     delete.delete().whenComplete(() => print("deleted successfully"));
   }
+  //  User? customers = FirebaseAuth.instance.currentUser;
+  
+  
+  // UserModel loggedInUser = UserModel();
+
+  // @override
+  // void initState(){
+  //   super.initState();
+    
+    
+  //   FirebaseFirestore.instance
+  //   .collection("customers")
+  //   .doc(customers!.uid)
+  //   .get()
+  //   .then((value){
+  //     // this.loggedInUser = UserModel.formMap(value.data());
+  //     loggedInUser = UserModel.formMap(value.data());
+  //     setState(() {});
+     
+      
+
+  //   });
+  // }
+
 
   @override
   void initState() {
@@ -104,7 +128,13 @@ class _ComplaintsState extends State<Complaints> {
     // getGlobalHouseId();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Complaints"),
+        backgroundColor: Colors.purple,
+        title: Text("Complain Page",
+        style: TextStyle(
+          fontFamily: "Dosis",
+          fontWeight: FontWeight.bold,
+        ),
+        ),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -121,6 +151,7 @@ class _ComplaintsState extends State<Complaints> {
           } else if (snapshot.hasData || snapshot.data != null) {
             return ListView.builder(
                 shrinkWrap: true,
+                
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   QueryDocumentSnapshot<Object?>? documentSnapshot =

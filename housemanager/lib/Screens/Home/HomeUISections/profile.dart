@@ -1,196 +1,364 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:ui';
 
-class ProfileUI2 extends StatelessWidget {
-  final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection("users").snapshots();
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:brewapp/Screens/Services/auth.dart';
+import 'package:flutter/material.dart';
+// import 'UtiilsHome/homeButtonsWidget.dart';
+import 'package:brewapp/Screens/Home/HomeUISections/profile.dart';
+import 'package:brewapp/Screens/Home/UtiilsHome/homeButtonsWidget.dart';
+import 'package:brewapp/Screens/Home/HomeUISections/setting.dart';
+import 'package:brewapp/Screens/Models/user_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+
+final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+
+
+class Profile extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                      'assets/images/home.jpg',
-                    ),
-                    fit: BoxFit.cover)),
-            child: Container(
-              width: double.infinity,
-              height: 200,
-              child: Container(
-                alignment: Alignment(0.0, 2.5),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage(
-                    'assets/images/users.png',
-                  ),
-                  radius: 60.0,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 60,
-          ),
-          Text(
-            "Achyut Thapa",
-            style: TextStyle(
-                fontSize: 25.0,
-                color: Colors.blueGrey,
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Aasthiskilo, Kavre",
-            style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.black87,
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.w300),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Joined This House: Jan 20,2022",
-            style: TextStyle(
-                fontSize: 15.0,
-                color: Colors.black87,
-                letterSpacing: 2.0,
-                fontWeight: FontWeight.w300),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          // Card(
-          //   margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 8.0),
-          //   elevation: 2.0,
-          //   child: Padding(
-          //       padding: EdgeInsets.symmetric(vertical: 12,horizontal: 30),
-          //       child: Text("Skill Sets",style: TextStyle(
-          //           letterSpacing: 2.0,
-          //           fontWeight: FontWeight.w300
-          //       ),))
-          // ),
-          // SizedBox(
-          //   height: 15,
-          // ),
-          Text(
-            "Contact Me ",
-            style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.black,
-              letterSpacing: 2.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          // Card(
-          //   margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 8.0),
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //       children: [
-          //         Expanded(
-          //           child: Column(
-          //             children: [
-          //               Text("Project",
-          //                 style: TextStyle(
-          //                     color: Colors.blueAccent,
-          //                     fontSize: 22.0,
-          //                     fontWeight: FontWeight.w600
-          //                 ),),
-          //               SizedBox(
-          //                 height: 7,
-          //               ),
-          //               Text("15",
-          //                 style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 22.0,
-          //                     fontWeight: FontWeight.w300
-          //                 ),)
-          //             ],
-          //           ),
-          //         ),
-          //         Expanded(
-          //           child:
-          //           Column(
-          //             children: [
-          //               Text("Followers",
-          //                 style: TextStyle(
-          //                     color: Colors.blueAccent,
-          //                     fontSize: 22.0,
-          //                     fontWeight: FontWeight.w600
-          //                 ),),
-          //               SizedBox(
-          //                 height: 7,
-          //               ),
-          //               Text("2000",
-          //                 style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 22.0,
-          //                     fontWeight: FontWeight.w300
-          //                 ),)
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [],
-          )
-        ],
-      ),
-    ));
-  }
+  _ProfileState createState() => _ProfileState();
 }
 
-// class Profile extends StatefulWidget {
-//   const Profile({Key? key}) : super(key: key);
+class _ProfileState extends State<Profile> {
 
-//   @override
-//   _ProfileState createState() => _ProfileState();
-// }
 
-// class _ProfileState extends State<Profile> {
-//   final Stream<QuerySnapshot> users =
-//       FirebaseFirestore.instance.collection("users").snapshots();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//         height: MediaQuery.of(context).size.height / 1.3,
-//         width: MediaQuery.of(context).size.width / 1.2,
-//         color: Colors.green,
-//         child: StreamBuilder<QuerySnapshot>(
-//             stream: users,
-//             builder: (
-//               BuildContext context,
-//               AsyncSnapshot<QuerySnapshot> snapshots,
-//             ) {
-//               if (snapshots.hasError) {
-//                 return Text("Loading Data error");
-//               } else {
-//                 final data = snapshots.requireData;
-//                 return ListView.builder(
-//                     itemCount: data.size,
-//                     itemBuilder: (context, index) {
-//                       return Text("Gmail is ${data.docs[index]['gmail']}");
-//                     });
-//               }
-//             }));
-//   }
-// }
+  File? _image;
+    
+  
+    
+
+
+  int counter = 0;
+    // final AuthService _auth = AuthService();
+  User? customers = FirebaseAuth.instance.currentUser;
+  
+  
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    
+    
+    FirebaseFirestore.instance
+    .collection("customers")
+    .doc(customers!.uid)
+    .get()
+    .then((value){
+      // this.loggedInUser = UserModel.fromMap(value.data());
+      loggedInUser = UserModel.formMap(value.data());
+      setState(() {});
+     
+      
+
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+
+    Future getImage() async {
+      ImagePicker picker = ImagePicker();
+      // var image = await ImagePicker.pickImage(source: ImageSource.gallery,
+      // );
+      var image = await picker.getImage(source: ImageSource.gallery);
+    
+
+      setState(() {
+        // 
+        _image = File(image!.path);
+          print('Image Path $_image');
+      });
+    }
+
+    Future uploadPic(BuildContext context) async{
+      String fileName = basename(_image!.path);
+      // StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+      // StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+      // StorageTaskSnapshot taskSnapshot=await uploadTask.onComplete;
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = storage.ref().child("images/"+DateTime.now().toString());
+      UploadTask uploadTask = ref.putFile(File(_image!.path));
+      uploadTask.then((res) {
+  res.ref.getDownloadURL();
+});
+   
+      
+       setState(() {
+          print("Profile Picture uploaded");
+          Scaffold.of(context).showSnackBar(SnackBar(content: Text('Profile Picture Uploaded')));
+       });
+    }
+
+  
+ 
+    return Scaffold(
+      
+        
+      body: Center(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  flex:3,
+                  child:Container(
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        // colors: [Colors.deepPurple[800],Colors.deepPurpleAccent],
+                        colors:  [Colors.deepPurple,Colors.deepPurpleAccent]
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        
+                        SizedBox(height: 20.0,),
+                         Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.center,
+                      child: CircleAvatar(
+                        radius: 80,
+                        backgroundColor: Color(0xff476cfb),
+                        child: ClipOval(
+                          child: new SizedBox(
+                            width: 180.0,
+                            height: 180.0,
+                            child: (_image!=null)?Image.file(
+                              _image!,
+                              fit: BoxFit.fill,
+                            ):Image.asset("assets/images/users.png",
+                              
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                     
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.camera_alt_rounded,
+                          color: Colors.white,
+                         
+                          size: 20.0,
+                        ),
+                        onPressed: () {
+                          getImage();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                        
+                          
+                        
+                        SizedBox(height: 10.0,),
+                        Text("${loggedInUser.fullname}",
+                        style: TextStyle(
+                          color:Colors.white,
+                          fontSize: 20.0,
+                        )),
+                        SizedBox(height: 10.0,),
+                        Text("${loggedInUser.address}",
+                        style: TextStyle(
+                          color:Colors.white,
+                          fontSize: 15.0,
+                        ),)
+                    ]
+                    ),
+                  ),
+                ),
+
+                Expanded(
+                  flex:5,
+                  child: Container(
+                    color: Colors.grey[200],
+                    child: Center(
+                        child:Card(
+                            margin: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
+                          child: Container(
+                            width: 350,
+                            height:290.0,
+                            child: Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Information",
+                                  style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w800,
+                                  ),),
+                                  Divider(color: Colors.grey[300],),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.phone,
+                                        color: Colors.blueAccent[400],
+                                        size: 35,
+                                      ),
+                                      SizedBox(width: 20.0,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Mobile Number",
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                            ),),
+                                          Text("${loggedInUser.mobilenumber}",
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.black,
+                                            ),)
+                                        ],
+                                      )
+
+                                    ],
+                                  ),
+                                  SizedBox(height: 20.0,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.email,
+                                        color: Colors.blue,
+                                        size: 35,
+                                      ),
+                                      SizedBox(width: 20.0,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Email Address",
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                            ),),
+                                          Text("${loggedInUser.email}",
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.black,
+                                            ),)
+                                        ],
+                                      )
+
+                                    ],
+                                  ),
+                                  SizedBox(height: 20.0,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.person,
+                                        color: Colors.blue,
+                                        size: 35,
+                                      ),
+                                      SizedBox(width: 20.0,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("UserID",
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                            ),),
+                                          Text("${loggedInUser.uid}",
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.black,
+                                            ),)
+                                        ],
+                                      )
+
+                                    ],
+                                  ),
+                                  SizedBox(height: 20.0,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.home,
+                                        color: Colors.blueAccent,
+                                        size: 35,
+                                      ),
+                                      SizedBox(width: 20.0,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Landlord",
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                            ),),
+                                          Text("Achyut Thapa",
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.black,
+                                            ),)
+                                        ],
+                                      )
+
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          )
+                        )
+                      ),
+                    ),
+                ),
+
+              ],
+            ),
+            Positioned(
+                top:MediaQuery.of(context).size.height*0.27,
+                left: 20.0,
+                right: 20.0,
+                child: Card(
+                  child: Padding(
+                    padding:EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          children: [
+                            RaisedButton(
+                              
+                      color: Color(0xff476cfb),
+                      onPressed: () {
+                       uploadPic(context);
+                      },
+                                       
+                      elevation: 4.0,
+                      splashColor: Colors.blueGrey,
+                      child: Text(
+                        'Update Profile',
+                        style: TextStyle(color: Colors.white, fontSize: 16.0),
+                      ),
+                    ),
+                            
+                            
+                          ],
+
+                        ),
+                        
+                      ],
+                    ),
+                  )
+                )
+            )
+          ],
+
+        ),
+      ),
+    );
+  }
+}

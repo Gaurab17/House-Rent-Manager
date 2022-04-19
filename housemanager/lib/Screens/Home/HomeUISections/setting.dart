@@ -2,6 +2,7 @@
 
 import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:brewapp/Screens/Home/HomeUISections/about_us.dart';
 
 class SettingsApp extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -21,14 +22,17 @@ class SettingsApp extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Container(
-              height: MediaQuery.of(context).size.height / 2,
+              
               color: Colors.white,
               child: ListTile(
                 title: Text("Logout"),
-                leading: Icon(Icons.logout_rounded),
+                leading: Icon(Icons.logout_rounded,
+                color:Colors.blue,
+                ),
                 onTap: () async {
                   await _auth.SignOut();
                 },
