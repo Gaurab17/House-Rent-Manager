@@ -2,7 +2,8 @@
 
 import 'package:brewapp/Screens/Models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:brewapp/Screens/Models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:brewapp/Screens/Models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -29,7 +30,7 @@ class AuthService {
   }
 
   // sign in with email and password
-  Future SignInWithEmailAndPassword(String email,String password) async {
+  Future SignInWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -52,23 +53,21 @@ class AuthService {
   //   }
   // }
 /////////////Register with the help of users_model
-///
+  ///
+  ///
+  ///function to remove
 
-
-
-
-
-
-
-
-
-
-
+// function to remove global houseId from sharedPreference
+  removeHouseId() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('counter');
+  }
 
   // sign out
   Future SignOut() async {
     try {
       await _auth.signOut();
+      removeHouseId();
     } catch (e) {
       print(e.toString());
       return null;

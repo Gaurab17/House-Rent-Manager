@@ -38,26 +38,7 @@ class SettingsApp extends StatelessWidget {
                 },
               ),
             ),
-            
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              
-             
-                color: Colors.white,
-                child: ListTile(
-                  title: Text("About Us"),
-                  leading: Icon(Icons.contact_page,
-                  color:Colors.blue),
-                  onTap: () async {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Homepage()));
-                   
-                  },
-                )
-
-            ),
-          )
         ],
       ),
     );

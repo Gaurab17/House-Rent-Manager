@@ -1,6 +1,11 @@
-// ignore_for_file: file_names, unused_label
+// ignore_for_file: file_names, unused_label, avoid_print
+import 'package:brewapp/Screens/Models/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khalti_flutter/khalti_flutter.dart';
+
+var globalVariable;
 
 class KhaltiPaymentPage extends StatefulWidget {
   const KhaltiPaymentPage({Key? key}) : super(key: key);
@@ -16,7 +21,40 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
     return int.parse(amountController.text) * 100; // Converting to paisa
   }
 
+  var now = DateTime.now().toString().substring(0, 10);
+  User? customers = FirebaseAuth.instance.currentUser;
+  UserModel? loggedInUser = UserModel();
+
+  hidGenerate() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("userDetails")
+        .doc(customers!.uid)
+        .get();
+
+    print(snapshot.id);
+
+    Map data = snapshot.data() as Map;
+
+    globalVariable = data['hid'];
+    print("baaka" + data['hid']);
+    await FirebaseFirestore.instance
+        .collection("houseIDs")
+        .doc(globalVariable)
+        .collection("tenants")
+        .doc(customers!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   @override
+  void initState() {
+    super.initState();
+    hidGenerate();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -75,6 +113,19 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                       );
                       ScaffoldMessenger.of(context)
                           .showSnackBar(successsnackBar);
+                      FirebaseFirestore.instance
+                          .collection("houseIDs")
+                          .doc(globalVariable)
+                          .collection('tenants')
+                          .doc(loggedInUser!.uid)
+                          .collection("history")
+                          .add({
+                            "payment date": now.toString(),
+                            "payment history": (getAmt() / 100).toString(),
+                          })
+                          .then((value) => print("Payment Date added"))
+                          .catchError(
+                              (error) => print('Error in creating collection'));
                     },
                     onFailure: (fa) {
                       const failedsnackBar = SnackBar(

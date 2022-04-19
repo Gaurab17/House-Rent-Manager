@@ -2,7 +2,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'UtiilsHome/homeButtonsWidget.dart';
 import 'package:brewapp/Screens/Home/HomeUISections/profile.dart';
 import 'package:brewapp/Screens/Home/UtiilsHome/homeButtonsWidget.dart';
@@ -21,49 +25,52 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final AuthService _auth = AuthService();
   User? customers = FirebaseAuth.instance.currentUser;
+  final AuthService _auth = AuthService();
   
   
   UserModel loggedInUser = UserModel();
   int _currentIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
-    .collection("customers")
-    .doc(customers!.uid)
-    .get()
-    .then((value){
-      // this.loggedInUser = UserModel.fromMap(value.data());
-      loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
-
-    });
-    
-  }
-  final tabs =[
-    Center(child:Widget1()),
-    Center(child:Profile()),
+  final tabs = [
+    Center(child: Widget1()),
+    Center(child: Profile()),
     // Center(child:Text("hello This is your Profile page")),
     // Center(child:Text("hello This is your Setting  page")),
-    Center(child:SettingsApp()),
-    // Center(child:HomeScreen()),
-    
-
-
+    Center(child: SettingsApp()),
   ];
 
+  // geting houseId and storing it to global variable.
+  validate() async {
+    if (customers?.uid != null) {
+      print(customers?.uid);
+
+      CollectionReference houseIds =
+          FirebaseFirestore.instance.collection('userDetails');
+      var userHouseId = await houseIds.doc(customers!.uid).get().then((value) {
+        Map data = value.data() as Map;
+        print(data['hid']);
+        return data['hid'];
+      });
+
+      print("........ ${userHouseId} this is user house id ok?????");
+
+      // obtain shared preferences
+      final prefs = await SharedPreferences.getInstance();
+
+      // set value
+      prefs.setInt('globalHouseID', int.parse(userHouseId));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    validate();
     return Scaffold(
       // body: Widget1(),
 
-      body:tabs[_currentIndex],
-     
-      bottomNavigationBar:BottomNavigationBar(
+      body: tabs[_currentIndex],
+
+      bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
@@ -83,34 +90,38 @@ class _HomeState extends State<Home> {
           //   label: 'Users',
           // ),
         ],
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
-
         },
-      
-      selectedItemColor: Colors.deepOrange,
-      unselectedItemColor: Colors.blueAccent,
-      iconSize: 30,
+        selectedItemColor: Color.fromARGB(255, 52, 100, 204),
+        unselectedItemColor: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+        iconSize: 30,
       ),
-     
-    
+
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         foregroundColor: Colors.blue,
-        
         elevation: 0.0,
         title: const Text(
           'Home Manager',
-          style: TextStyle(color: Color(0xff212225)),
+          style: TextStyle(
+              color: Color(
+                0xff212225,
+              ),
+              fontSize: 24,
+              fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
-        backgroundColor: Color(0xffffffff),
-        leading: Icon(
-          Icons.home,
-          color: Color(0xff212225),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: Icon(
+            Icons.home,
+            color: Color(0xff212225),
+          ),
         ),
         actions: [
               
@@ -142,8 +153,6 @@ class _HomeState extends State<Home> {
            ),
         ],
       ),
-     
-     
     );
   }
 }

@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace
 
 import 'dart:io';
 import 'dart:ui';
@@ -51,7 +52,7 @@ class _ProfileState extends State<Profile> {
     .get()
     .then((value){
       // this.loggedInUser = UserModel.fromMap(value.data());
-      loggedInUser = UserModel.fromMap(value.data());
+      loggedInUser = UserModel.formMap(value.data());
       setState(() {});
      
       
