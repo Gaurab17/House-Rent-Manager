@@ -1,13 +1,14 @@
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
+
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:brewapp/Screens/Services/local_notification.dart';
-import 'package:brewapp/Screens/Authenticate/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:brewapp/Screens/Models/user_model.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -16,21 +17,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
   bool isLoading = false;
-  
-  storeNotificationToken()async{
+
+  storeNotificationToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    FirebaseFirestore.instance.collection('customers').doc(FirebaseAuth.instance.currentUser!.uid).set(
-        {
-          'token': token
-        },SetOptions(merge: true));
+    FirebaseFirestore.instance
+        .collection('customers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({'token': token}, SetOptions(merge: true));
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    // implement initState
     super.initState();
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((event) {
@@ -39,13 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
     storeNotificationToken();
 
     FirebaseMessaging.instance.subscribeToTopic('subscription');
-
   }
 
-
-
-  sendNotification(String title, String token)async{
-
+  sendNotification(String title, String token) async {
     final data = {
       'click_action': 'FLUTTER_NOTIFICATION_CLICK',
       'id': '1',
@@ -53,76 +48,70 @@ class _HomeScreenState extends State<HomeScreen> {
       'message': title,
     };
 
-    try{
-     http.Response response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),headers: <String,String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=ADD-YOUR-SERVER-KEY-HERE'
-      },
-      body: jsonEncode(<String,dynamic>{
-        'notification': <String,dynamic> {'title': title,'body': 'You are followed by someone'},
-        'priority': 'high',
-        'data': data,
-        'to': '$token'
-      })
-      );
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization': 'key=ADD-YOUR-SERVER-KEY-HERE'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'You are followed by someone'
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '$token'
+              }));
 
-
-     if(response.statusCode == 200){
-       print("Yeh notificatin is sended");
-     }else{
-       print("Error");
-     }
-
-    }catch(e){
-
-    }
-
-  }
-
-
-  sendNotificationToTopic(String title)async{
-
-    final data = {
-      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-      'id': '1',
-      'status': 'done',
-      'message': title,
-    };
-
-    try{
-      http.Response response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),headers: <String,String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=AAAA7NEUBtQ:APA91bFXJb8RWaNPOwdeu3Ih3Jlb3hvQWjp1eRSxMs2xpMuOcJMdzYQYqZHP82-hYCDErFrrQdfrZ9cGiTlkNKvrgJqmaRrNoVqjPKNx34E76tyqwg2GLrt8cR9qSJveJEn0zxyW6qgY'
-      },
-          body: jsonEncode(<String,dynamic>{
-            'notification': <String,dynamic> {'title': title,'body': 'You are followed by someone'},
-            'priority': 'high',
-            'data': data,
-            'to': '/topics/subscription'
-          })
-      );
-
-
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print("Yeh notificatin is sended");
-      }else{
+      } else {
         print("Error");
       }
-
-    }catch(e){
-
-    }
-
+    } catch (e) {}
   }
 
+  sendNotificationToTopic(String title) async {
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'message': title,
+    };
 
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAA7NEUBtQ:APA91bFXJb8RWaNPOwdeu3Ih3Jlb3hvQWjp1eRSxMs2xpMuOcJMdzYQYqZHP82-hYCDErFrrQdfrZ9cGiTlkNKvrgJqmaRrNoVqjPKNx34E76tyqwg2GLrt8cR9qSJveJEn0zxyW6qgY'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'You are followed by someone'
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '/topics/subscription'
+              }));
+
+      if (response.statusCode == 200) {
+        print("Yeh notificatin is sended");
+      } else {
+        print("Error");
+      }
+    } catch (e) {}
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           sendNotificationToTopic('FLutter Force uploaded a video');
         },
         child: Icon(Icons.add),
@@ -144,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return const CircularProgressIndicator();
                       }
                       List followList = snapshot.data!.get('uid');
-                      
+
                       TextEditingController nameController =
                           TextEditingController(
                         text: snapshot.data!.get('fullname'),
@@ -158,7 +147,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-
                           const SizedBox(
                             height: 10,
                           ),
@@ -191,7 +179,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
-
                           StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('users')
@@ -208,8 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (context, i) {
                                   String? token;
                                   try {
-                                    token = secSnapshot.data!.docs[i]
-                                        .get('token');
+                                    token =
+                                        secSnapshot.data!.docs[i].get('token');
                                   } catch (e) {}
                                   User? user =
                                       FirebaseAuth.instance.currentUser;
@@ -218,8 +205,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     margin: const EdgeInsets.all(15),
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                        border: Border.all(width: 1),
-                                  ),
+                                      border: Border.all(width: 1),
+                                    ),
                                     child: Row(
                                       children: [
                                         Column(
@@ -227,7 +214,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              secSnapshot.data!.docs[i]['fullname'],
+                                              secSnapshot.data!.docs[i]
+                                                  ['fullname'],
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.black,
@@ -246,16 +234,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                         followList.contains(docId)
                                             ? TextButton(
                                                 onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection('customers')
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser!.uid)
+                                                      .set({
+                                                    'uid':
+                                                        FieldValue.arrayRemove(
+                                                            [docId])
+                                                  }, SetOptions(merge: true));
 
-
-                                                  FirebaseFirestore.instance.collection('customers').doc(FirebaseAuth.instance.currentUser!.uid).set(
-                                                      {
-                                                        'uid': FieldValue.arrayRemove([docId])
-                                                      },SetOptions(merge: true));
-
-                                                  sendNotification('Unfollow', token!);
-
-
+                                                  sendNotification(
+                                                      'Unfollow', token!);
                                                 },
                                                 child: const Text(
                                                   'unfollow',
@@ -266,15 +256,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                               )
                                             : TextButton(
                                                 onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection('customers')
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser!.uid)
+                                                      .set({
+                                                    'uid':
+                                                        FieldValue.arrayUnion(
+                                                            [docId])
+                                                  }, SetOptions(merge: true));
 
-                                                  FirebaseFirestore.instance.collection('customers').doc(FirebaseAuth.instance.currentUser!.uid).set(
-                                                      {
-                                                        'uid': FieldValue.arrayUnion([docId])
-                                                      },SetOptions(merge: true));
-
-                                                  sendNotification('follow', token!);
-
-
+                                                  sendNotification(
+                                                      'follow', token!);
                                                 },
                                                 child: const Text('follow',
                                                     style: TextStyle(

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print
 
+import 'package:brewapp/Screens/Services/constants.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/cupertino.dart';
@@ -25,97 +26,115 @@ class _ResetpswState extends State<Resetpsw> {
     return loading
         ? Spinkit()
         : Scaffold(
-          appBar: AppBar(
-            
-            centerTitle: true,
-            title: Text("Reset Password Page",
-            style: TextStyle(
-              fontFamily: "Dosis",
-              fontWeight: FontWeight.bold,
-
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: backgroundColor,
+              elevation: 0,
             ),
-            ),
-          ),
-            backgroundColor: Colors.white,
-            body: Container(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 80,
-                    ),
-                    Center(
-                      child: Text(
-                        'Reset Password',
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: "Dosis",
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+            backgroundColor: backgroundColor,
+            body: SingleChildScrollView(
+              child: Container(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0, right: 12),
-                      child: TextFormField(
-                        validator: (val) => val!.isEmpty ? 'Enter email' : null,
-                        onChanged: (val) {
-                          setState(() {
-                            email = val;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Enter your valid email ',
+                      Image.asset(
+                        "assets/images/reset.gif",
+                        height: 250,
+                        width: 250,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'Reset Password',
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: textColor),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          dynamic result = await _auth
-                              .sendPasswordResetEmail(email: email)
-                              .then((value) => null);
-
-                          if (result == null) {
-                            setState(() {
-                              error = 'Enter valid data';
-                              loading = false;
-                            });
-                          }
-                          if (result != null) {
-                            setState(() {
-                              hint =
-                                  'Check your email for the password reset link once you send request';
-                            });
-                          }
-                          Navigator.of(context).pop();
-                        }
-                      },
-                      child: Text(
-                        'Send Request',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(error,
-                        style: TextStyle(color: Colors.red, fontSize: 16)),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(hint,
-                        style: TextStyle(color: Colors.blue, fontSize: 16)),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 12),
+                        child: TextFormField(
+                          validator: (val) =>
+                              val!.isEmpty ? 'Enter email' : null,
+                          onChanged: (val) {
+                            setState(() {
+                              email = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Enter your valid email ',
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: Colors.red,
+                            ),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(buttonColor),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: BorderSide(color: buttonColor)))),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            dynamic result = await _auth
+                                .sendPasswordResetEmail(email: email)
+                                .then((value) => null);
+
+                            if (result == null) {
+                              setState(() {
+                                error = 'Enter valid data';
+                                loading = false;
+                              });
+                            }
+                            if (result != null) {
+                              setState(() {
+                                hint =
+                                    'Check your email for the password reset link once you send request';
+                              });
+                            }
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: Text(
+                          'Send Request',
+                          style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(error,
+                          style: TextStyle(color: Colors.red, fontSize: 16)),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(hint,
+                          style: TextStyle(color: Colors.blue, fontSize: 16)),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -2,10 +2,10 @@
 
 import 'package:brewapp/Screens/Authenticate/resetpassword.dart';
 import 'package:brewapp/Screens/Services/auth.dart';
+import 'package:brewapp/Screens/Services/constants.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 // import 'package:flutter/painting.dart';
 
 class SignIn extends StatefulWidget {
@@ -23,9 +23,9 @@ class _SignInState extends State<SignIn> {
   String password = '';
   String error = '';
   bool loading = false;
-  bool _obscureText = false;
+  bool _obscureText = true;
 
-   void _toggle() {
+  void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
     });
@@ -36,19 +36,7 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Spinkit()
         : Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.purple,
-            
-            centerTitle: true,
-            title: Text("Login Screen",
-            style: TextStyle(
-              fontFamily: "Dosis",
-              fontWeight: FontWeight.bold,
-
-            ),
-            ),
-          ),
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             body: SingleChildScrollView(
               child: Container(
                 child: Form(
@@ -56,7 +44,7 @@ class _SignInState extends State<SignIn> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 30,
+                        height: 50,
                       ),
                       Center(
                         child: Image.asset(
@@ -65,14 +53,16 @@ class _SignInState extends State<SignIn> {
                           width: 300,
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Center(
                         child: Text(
                           'Login to Home Manager',
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontFamily: "Dosis",
+                            color: textColor,
                           ),
                         ),
                       ),
@@ -119,11 +109,14 @@ class _SignInState extends State<SignIn> {
                                 Icons.lock,
                                 color: Colors.red,
                               ),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.visibility),
+                                highlightColor: Colors.pink,
+                                onPressed: () {
+                                  _toggle();
+                                },
+                              ),
                               hintText: 'Enter your password ',
-                              
-                              
-                              
-                              
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
@@ -148,18 +141,17 @@ class _SignInState extends State<SignIn> {
                                 MaterialPageRoute(
                                     builder: (context) => Resetpsw()));
                           }),
-                      SizedBox(height: 14),
+                      SizedBox(height: 20),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: 40,
+                        width: MediaQuery.of(context).size.width / 2.2,
+                        height: 45,
                         child: ElevatedButton(
-                          
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               setState(() {
                                 loading = true;
                               });
-                               
+
                               dynamic result =
                                   await _auth.SignInWithEmailAndPassword(
                                       email, password);
@@ -168,48 +160,39 @@ class _SignInState extends State<SignIn> {
                                   error = 'Enter valid data';
                                   loading = false;
                                 });
-                               
                               }
-                              
                             }
-                            
                           },
-                          
                           child: Text(
                             'Login',
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
                           style: ButtonStyle(
-                             backgroundColor: 
-                                  MaterialStateProperty.all(Colors.purple),
+                              backgroundColor:
+                                  MaterialStateProperty.all(buttonColor),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.purple)))),
-                            
-                            
-                          ),
+                                      side: BorderSide(color: buttonColor)))),
                         ),
-                      
-                      SizedBox(
-                        height: 8,
                       ),
-                     
+                      SizedBox(
+                        height: 20,
+                      ),
                       Text(
-                        "Doesn't have an account?",
+                        "Don't have an account?",
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: "Dosis",
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 12,
                       ),
                       GestureDetector(
                         child: Text(

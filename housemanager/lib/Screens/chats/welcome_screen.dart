@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, import_of_legacy_library_into_null_safe
 
+import 'package:brewapp/Screens/Services/constants.dart';
 import 'package:flutter/material.dart';
 
 // import "package:housechat/components/rounded_button.dart";
@@ -42,17 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "Welcome to Chat",
-            style: TextStyle(
-              fontFamily: "Dosis",
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          )),
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       body: SplashScreen(
           seconds: 3,
           navigateAfterSeconds: const ChatScreen(),
@@ -68,7 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             height: 250,
             width: 250,
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: backgroundColor,
           styleTextUnderTheLoader: const TextStyle(),
           photoSize: 100.0,
           onClick: () => print("Flutter "),

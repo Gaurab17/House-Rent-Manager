@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         leading: null,
         title: const Text(
@@ -84,7 +85,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: topColor,
       ),
       body: SafeArea(
         child: Column(

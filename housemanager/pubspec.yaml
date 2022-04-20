@@ -54,6 +54,8 @@ dependencies:
   firebase_messaging: 
   flutter_local_notifications: ^9.4.0
   http: ^0.13.4
+  flutter_vector_icons: ^1.0.0
+  contactus: ^1.2.0
 dependency_overrides:
   
   firebase_messaging_platform_interface: 3.1.6

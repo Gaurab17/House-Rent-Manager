@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, unused_label, avoid_print
 import 'package:brewapp/Screens/Models/user_model.dart';
+import 'package:brewapp/Screens/Services/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,14 +59,21 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        backgroundColor: topColor,
         title: const Text('Khalti Payment'),
         centerTitle: true,
       ),
       body: Container(
+        color: backgroundColor,
         padding: const EdgeInsets.all(15),
         child: ListView(
           children: [
+            const SizedBox(height: 15),
+            Image.asset(
+              "assets/images/khalti.gif",
+              height: 250,
+              width: 250,
+            ),
             const SizedBox(height: 15),
             // For Amount
             TextField(
@@ -83,18 +91,18 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                   )),
             ),
             const SizedBox(
-              height: 8,
+              height: 10,
             ),
             // For Button
             MaterialButton(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    side: const BorderSide(color: Colors.red)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 height: 50,
-                color: const Color(0xFF56328c),
+                color: buttonColor,
                 child: const Text(
                   'Pay With Khalti',
-                  style: TextStyle(color: Colors.white, fontSize: 22),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 onPressed: () {
                   KhaltiScope.of(context).pay(

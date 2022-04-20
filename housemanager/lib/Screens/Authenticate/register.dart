@@ -3,8 +3,10 @@
 // import 'package:brewapp/Screens/Authenticate/signin.dart';
 import 'package:brewapp/Screens/Home/home.dart';
 import 'package:brewapp/Screens/Models/user_model.dart';
+import 'package:brewapp/Screens/Services/constants.dart';
 // import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
+import 'package:brewapp/Screens/chats/chatscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,13 @@ class _RegisterState extends State<Register> {
   String error = '';
   // Type contact = int;
   bool loading = false;
+  bool _obscureText = true;
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,7 @@ class _RegisterState extends State<Register> {
     return loading
         ? Spinkit()
         : Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             body: SingleChildScrollView(
               child: Container(
                 child: Form(
@@ -55,23 +64,26 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 20,
+                        height: 30,
                       ),
                       Center(
                         child: Image.asset(
                           'assets/images/rent.gif',
-                          height: 200,
-                          width: 200,
+                          height: 180,
+                          width: 180,
                         ),
+                      ),
+                      SizedBox(
+                        height: 8,
                       ),
                       Center(
                         child: Text(
                           "Register To House Manager",
                           style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontFamily: "Dosis"),
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -80,8 +92,11 @@ class _RegisterState extends State<Register> {
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
-                          validator: (val) =>
-                              val!.isEmpty ? 'Enter Full Name' : null,
+                          validator: (val) => val!.isEmpty
+                              ? 'Enter Full Name'
+                              : val.length > 30
+                                  ? "Enter Name with length less than 30"
+                                  : null,
                           onChanged: (val) {
                             setState(() {
                               fulllnameEditingController.text = val;
@@ -138,7 +153,7 @@ class _RegisterState extends State<Register> {
                                 Icons.email,
                                 color: Colors.red,
                               ),
-                              hintText: 'Email Your Valid Email',
+                              hintText: 'Enter valid email ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
@@ -149,8 +164,13 @@ class _RegisterState extends State<Register> {
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
-                          validator: (val) =>
-                              val!.isEmpty ? 'Enter your mobile number' : null,
+                          validator: (val) => val!.isEmpty
+                              ? 'Enter your mobile number'
+                              : val.length < 10
+                                  ? "Enter mobile no with length of 10"
+                                  : val.length > 10
+                                      ? "Enter mobile no with length of 10"
+                                      : null,
                           onChanged: (val) {
                             setState(() {
                               mobilenumberEditingController.text = val;
@@ -198,7 +218,7 @@ class _RegisterState extends State<Register> {
                           validator: (val) => val!.length < 6
                               ? 'Enter password with length more than 6'
                               : null,
-                          obscureText: true,
+                          obscureText: _obscureText,
                           onChanged: (val) {
                             setState(() {
                               passwordEditingController.text = val;
@@ -208,6 +228,13 @@ class _RegisterState extends State<Register> {
                               prefixIcon: Icon(
                                 Icons.lock,
                                 color: Colors.red,
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.visibility),
+                                highlightColor: Colors.pink,
+                                onPressed: () {
+                                  _toggle();
+                                },
                               ),
                               hintText: 'Enter Password',
                               border: OutlineInputBorder(
@@ -221,23 +248,20 @@ class _RegisterState extends State<Register> {
                           child: Text(
                             'Register',
                             style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
                           style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.blue),
+                                  MaterialStateProperty.all(buttonColor),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.blue)))),
+                                      side: BorderSide(color: buttonColor)))),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                loading = true;
-                              });
                               dynamic result = signUp(
                                   emailEditingController.text,
                                   passwordEditingController.text);
@@ -259,10 +283,10 @@ class _RegisterState extends State<Register> {
                           Text(
                             "Already have an account? ",
                             style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                                fontFamily: "Dosis"),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: textColor,
+                            ),
                           ),
                           GestureDetector(
                             child: Text(
@@ -288,9 +312,41 @@ class _RegisterState extends State<Register> {
 
   signUp(String email, String password) async {
     if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore()});
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {postDetailsToFirestore()});
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print("Password Provided is too Weak");
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Color.fromARGB(255, 235, 98, 86),
+              content: Padding(
+                padding: const EdgeInsets.only(left: 60.0),
+                child: Text(
+                  "Password Provided is too Weak",
+                  style: TextStyle(fontSize: 18.0, color: textColor),
+                ),
+              ),
+            ),
+          );
+        } else if (e.code == 'email-already-in-use') {
+          print("Account Already exists");
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: cardColor,
+              content: Padding(
+                padding: const EdgeInsets.only(left: 60.0),
+                child: Text(
+                  "Account Already exists",
+                  style: TextStyle(fontSize: 18.0, color: Colors.red),
+                ),
+              ),
+            ),
+          );
+        }
+      }
     }
   }
 

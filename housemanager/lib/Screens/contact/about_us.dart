@@ -1,17 +1,19 @@
+import 'package:brewapp/Screens/Services/constants.dart';
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
+class AboutUs extends StatelessWidget {
+  const AboutUs({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: Text("About Us",
-        style: TextStyle(
-          fontFamily: "Dosis",
-          fontWeight: FontWeight.bold
-        ),),
+        backgroundColor: topColor,
+        title: const Text(
+          "About Us",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Center(
@@ -33,104 +35,48 @@ class Homepage extends StatelessWidget {
                     width: 20,
                   ),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: 200,
-                        height: 200,
-                        
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.blue,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Column(
-                          children: [
-                            const Expanded(
-                              child: Text(
-                                "Gaurab Shrestha",
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                "Email: gaurabstha001@gmail.com",
-                                style: TextStyle(
-                                  fontFamily: "Dosis",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text("Contact: 9860145121"),
-                            ),
-                            Expanded(
-                              child: Text(
-                                "Backend Developer",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-              SizedBox(height: 20),
-              Expanded(
-                  child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 40.0,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: AssetImage(
-                      "assets/images/achyut.jpg",
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
                     child: Container(
                       width: 200,
                       height: 200,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.blue,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                        border: Border.all(
+                          color: Colors.blue,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20)),
+                      ),
                       child: Column(
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Expanded(
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          const Expanded(
                             child: Text(
-                              "Achyut Thapa",
+                              "Gaurab Shrestha",
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
+                                color: textColor,
                               ),
                             ),
                           ),
-                          Expanded(
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Expanded(
                             child: Text(
-                              "Email: achyutthapa6@gmail.com",
+                              "Email: gaurabstha001@gmail.com",
                               style: TextStyle(
                                 fontFamily: "Dosis",
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: Text("Contact: 9861443780"),
+                          const Expanded(
+                            child: Text("Contact: 9860145121"),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text(
                               "Backend Developer",
                               style: TextStyle(
@@ -145,19 +91,18 @@ class Homepage extends StatelessWidget {
                   ),
                 ],
               )),
-              SizedBox(height: 20),
-
+              const SizedBox(height: 20),
               Expanded(
                   child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 40.0,
                     backgroundColor: Colors.transparent,
                     backgroundImage: AssetImage(
-                      "assets/images/roj.jpg",
+                      "assets/images/achyut.jpg",
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -168,19 +113,97 @@ class Homepage extends StatelessWidget {
                           border: Border.all(
                             color: Colors.blue,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20))),
                       child: Column(
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Expanded(
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          const Expanded(
                             child: Text(
-                              "Rojan Uprety",
+                              "Achyut Thapa",
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
+                                color: textColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          Expanded(
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Expanded(
+                            child: Text(
+                              "Email: achyutthapa6@gmail.com",
+                              style: TextStyle(
+                                fontFamily: "Dosis",
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const Expanded(
+                            child: Text("Contact: 9861443780"),
+                          ),
+                          const Expanded(
+                            child: Text(
+                              "Backend Developer",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+              const SizedBox(height: 20),
+              Expanded(
+                  child: Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 40.0,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: AssetImage(
+                      "assets/images/roj.jpg",
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20))),
+                      child: Column(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          const Expanded(
+                            child: Text(
+                              "Rojan Uprety",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Expanded(
                             child: Text(
                               "Email: rojan.uprety@gmail.com",
                               style: TextStyle(
@@ -189,10 +212,10 @@ class Homepage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text("Contact: 9865382115"),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text(
                               "UI/UX Developer",
                               style: TextStyle(
@@ -207,18 +230,18 @@ class Homepage extends StatelessWidget {
                   ),
                 ],
               )),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                   child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 40.0,
                     backgroundColor: Colors.transparent,
                     backgroundImage: AssetImage(
                       "assets/images/kaji1.jpg",
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -229,19 +252,28 @@ class Homepage extends StatelessWidget {
                           border: Border.all(
                             color: Colors.blue,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20))),
                       child: Column(
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Expanded(
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          const Expanded(
                             child: Text(
                               "Aadarsha Thapa",
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
+                                color: textColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          Expanded(
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Expanded(
                             child: Text(
                               "Email: aadarshaandkazi@gmail.com",
                               style: TextStyle(
@@ -250,10 +282,10 @@ class Homepage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text("Contact: 9860040655"),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text(
                               "UI/UX Developer",
                               style: TextStyle(
@@ -268,18 +300,18 @@ class Homepage extends StatelessWidget {
                   ),
                 ],
               )),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                   child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 40.0,
                     backgroundColor: Colors.transparent,
                     backgroundImage: AssetImage(
                       "assets/images/kaley.jpg",
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
@@ -290,19 +322,28 @@ class Homepage extends StatelessWidget {
                           border: Border.all(
                             color: Colors.blue,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20))),
                       child: Column(
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Expanded(
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          const Expanded(
                             child: Text(
                               "Prajwol Manandhar",
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
+                                color: textColor,
                               ),
                             ),
                           ),
-                          Expanded(
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          const Expanded(
                             child: Text(
                               "Email: p.mdr79@gmail.com",
                               style: TextStyle(
@@ -311,10 +352,10 @@ class Homepage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text("Contact: 9843758344"),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text(
                               "Manager ",
                               style: TextStyle(
@@ -329,8 +370,6 @@ class Homepage extends StatelessWidget {
                   ),
                 ],
               )),
-
-              
             ],
           ),
         ),

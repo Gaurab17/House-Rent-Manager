@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, avoid_print
 import 'package:brewapp/Screens/Home/HomeUISections/Payment.dart';
+import 'package:brewapp/Screens/Services/constants.dart';
+import 'package:brewapp/Screens/Services/local_notification.dart';
 // import 'package:brewapp/Screens/Home/HomeUISections/chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +13,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:brewapp/Screens/chats/welcome_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:brewapp/Screens/services/local_notification.dart';
+
 import 'dart:convert';
 
 // import '../HomeUISections/profile.dart';
@@ -25,18 +27,18 @@ class Widget1 extends StatefulWidget {
 
 class _Widget1State extends State<Widget1> {
   bool isLoading = false;
-  
-  storeNotificationToken()async{
+
+  storeNotificationToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    FirebaseFirestore.instance.collection('customers').doc(FirebaseAuth.instance.currentUser!.uid).set(
-        {
-          'token': token
-        },SetOptions(merge: true));
+    FirebaseFirestore.instance
+        .collection('customers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({'token': token}, SetOptions(merge: true));
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+    // : implement initState
     super.initState();
     FirebaseMessaging.instance.getInitialMessage();
     FirebaseMessaging.onMessage.listen((event) {
@@ -45,13 +47,9 @@ class _Widget1State extends State<Widget1> {
     storeNotificationToken();
 
     FirebaseMessaging.instance.subscribeToTopic('subscription');
-
   }
 
-
-
-  sendNotification(String title, String token)async{
-
+  sendNotification(String title, String token) async {
     final data = {
       'click_action': 'FLUTTER_NOTIFICATION_CLICK',
       'id': '1',
@@ -59,67 +57,66 @@ class _Widget1State extends State<Widget1> {
       'message': title,
     };
 
-    try{
-     http.Response response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),headers: <String,String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=AAAAjIU2p00:APA91bEhi9qXI18VHvE9TRgp_GuUoKiQYO5nAkbG12mflbEaL10L8PFYN7gY3D9F0zywcEH5NDITLIw_8BD3ph_blKYn-R47UR6EWRCbYUbSqz0Lp6iRYsf9Bu07U50L2FtZDqHZw-Oj'
-      },
-      body: jsonEncode(<String,dynamic>{
-        'notification': <String,dynamic> {'title': title,'body': 'You are followed by someone'},
-        'priority': 'high',
-        'data': data,
-        'to': '$token'
-      })
-      );
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAAjIU2p00:APA91bEhi9qXI18VHvE9TRgp_GuUoKiQYO5nAkbG12mflbEaL10L8PFYN7gY3D9F0zywcEH5NDITLIw_8BD3ph_blKYn-R47UR6EWRCbYUbSqz0Lp6iRYsf9Bu07U50L2FtZDqHZw-Oj'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'You are followed by someone'
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '$token'
+              }));
 
-
-     if(response.statusCode == 200){
-       print("Yeh notificatin is sended");
-     }else{
-       print("Error");
-     }
-
-    }catch(e){
-
-    }
-
-  }
-
-
-  sendNotificationToTopic(String title)async{
-
-    final data = {
-      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-      'id': '1',
-      'status': 'done',
-      'message': title,
-    };
-
-    try{
-      http.Response response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),headers: <String,String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'key=AAAAjIU2p00:APA91bEhi9qXI18VHvE9TRgp_GuUoKiQYO5nAkbG12mflbEaL10L8PFYN7gY3D9F0zywcEH5NDITLIw_8BD3ph_blKYn-R47UR6EWRCbYUbSqz0Lp6iRYsf9Bu07U50L2FtZDqHZw-Oj'
-      },
-          body: jsonEncode(<String,dynamic>{
-            'notification': <String,dynamic> {'title': title,'body': 'You are followed by someone'},
-            'priority': 'high',
-            'data': data,
-            'to': '/topics/subscription'
-          })
-      );
-
-
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print("Yeh notificatin is sended");
-      }else{
+      } else {
         print("Error");
       }
-
-    }catch(e){
-
-    }
-
+    } catch (e) {}
   }
+
+  sendNotificationToTopic(String title) async {
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'message': title,
+    };
+
+    try {
+      http.Response response =
+          await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+              headers: <String, String>{
+                'Content-Type': 'application/json',
+                'Authorization':
+                    'key=AAAAjIU2p00:APA91bEhi9qXI18VHvE9TRgp_GuUoKiQYO5nAkbG12mflbEaL10L8PFYN7gY3D9F0zywcEH5NDITLIw_8BD3ph_blKYn-R47UR6EWRCbYUbSqz0Lp6iRYsf9Bu07U50L2FtZDqHZw-Oj'
+              },
+              body: jsonEncode(<String, dynamic>{
+                'notification': <String, dynamic>{
+                  'title': title,
+                  'body': 'You are followed by someone'
+                },
+                'priority': 'high',
+                'data': data,
+                'to': '/topics/subscription'
+              }));
+
+      if (response.statusCode == 200) {
+        print("Yeh notificatin is sended");
+      } else {
+        print("Error");
+      }
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -137,10 +134,15 @@ class _Widget1State extends State<Widget1> {
                       firstDay: DateTime(1990),
                       lastDay: DateTime(2050),
                       headerStyle: const HeaderStyle(
+                        headerPadding: EdgeInsets.symmetric(vertical: 1),
+                        headerMargin: EdgeInsets.only(
+                          bottom: 20,
+                        ),
+                        titleCentered: true,
                         titleTextStyle:
                             TextStyle(color: Colors.white, fontSize: 20.0),
                         decoration: BoxDecoration(
-                            color: Colors.blueAccent,
+                            color: buttonColor,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 topRight: Radius.circular(10))),
@@ -195,11 +197,11 @@ class _Widget1State extends State<Widget1> {
                   //background color of box
                   BoxShadow(
                     color: Color.fromARGB(255, 112, 112, 112),
-                    blurRadius: 25.0, // soften the shadow
-                    spreadRadius: 5.0, //extend the shadow
+                    blurRadius: 15.0, // soften the shadow
+                    spreadRadius: 1.0, //extend the shadow
                     offset: Offset(
-                      10.0, // Move to right 10  horizontally
-                      10.0, // Move to bottom 10 Vertically
+                      5.0, // Move to right 10  horizontally
+                      5.0, // Move to bottom 10 Vertically
                     ),
                   )
                 ],
@@ -219,7 +221,7 @@ class _Widget1State extends State<Widget1> {
               child: GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: buttonColor,
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
@@ -254,7 +256,7 @@ class _Widget1State extends State<Widget1> {
             GestureDetector(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.purple,
+                  color: buttonColor,
                   borderRadius: BorderRadius.all(
                     Radius.circular(18),
                   ),
@@ -300,7 +302,7 @@ class _Widget1State extends State<Widget1> {
               child: GestureDetector(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: buttonColor,
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
@@ -336,7 +338,7 @@ class _Widget1State extends State<Widget1> {
             GestureDetector(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.purple,
+                  color: buttonColor,
                   borderRadius: BorderRadius.all(
                     Radius.circular(18),
                   ),

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers, avoid_print, unnecessary_string_interpolations, prefer_typing_uninitialized_variables
 import 'package:brewapp/Screens/Models/user_model.dart';
-import 'package:brewapp/Screens/chats/chatscreen.dart';
+import 'package:brewapp/Screens/Services/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -39,12 +39,10 @@ class _ComplaintsState extends State<Complaints> {
   UserModel? loggedInUser = UserModel();
 
   hidGenerate() async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection("userDetails")
-        .doc(customers!.uid)
-        .get();
+    DocumentSnapshot snapshot =
+        await FirebaseFirestore.instance.collection("userDetails").doc().get();
 
-    print(snapshot.id);
+    print(snapshot);
 
     Map data = snapshot.data() as Map;
 
@@ -92,30 +90,6 @@ class _ComplaintsState extends State<Complaints> {
 
     delete.delete().whenComplete(() => print("deleted successfully"));
   }
-  //  User? customers = FirebaseAuth.instance.currentUser;
-  
-  
-  // UserModel loggedInUser = UserModel();
-
-  // @override
-  // void initState(){
-  //   super.initState();
-    
-    
-  //   FirebaseFirestore.instance
-  //   .collection("customers")
-  //   .doc(customers!.uid)
-  //   .get()
-  //   .then((value){
-  //     // this.loggedInUser = UserModel.formMap(value.data());
-  //     loggedInUser = UserModel.formMap(value.data());
-  //     setState(() {});
-     
-      
-
-  //   });
-  // }
-
 
   @override
   void initState() {
@@ -128,12 +102,12 @@ class _ComplaintsState extends State<Complaints> {
     // getGlobalHouseId();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
-        title: Text("Complain Page",
-        style: TextStyle(
-          fontFamily: "Dosis",
-          fontWeight: FontWeight.bold,
-        ),
+        backgroundColor: topColor,
+        title: const Text(
+          "Complain Page",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),
@@ -149,41 +123,46 @@ class _ComplaintsState extends State<Complaints> {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
           } else if (snapshot.hasData || snapshot.data != null) {
-            return ListView.builder(
-                shrinkWrap: true,
-                
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  QueryDocumentSnapshot<Object?>? documentSnapshot =
-                      snapshot.data?.docs[index];
-                  return Dismissible(
-                      key: Key(index.toString()),
-                      child: Card(
-                        elevation: 4,
-                        child: ListTile(
-                          title: Text((documentSnapshot != null)
-                              ? (documentSnapshot["complaints"])
-                              : ""),
-                          subtitle: Text((documentSnapshot != null)
-                              ? ((documentSnapshot["description"] != null)
-                                  ? documentSnapshot["description"]
-                                  : "")
-                              : ""),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            color: Colors.red,
-                            onPressed: () {
-                              setState(() {
-                                // complaintsLists.removeAt(index);
-                                deleteTodo((documentSnapshot != null)
-                                    ? (documentSnapshot["complaints"])
-                                    : "");
-                              });
-                            },
-                          ),
-                        ),
-                      ));
-                });
+            return Container(
+              color: backgroundColor,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    QueryDocumentSnapshot<Object?>? documentSnapshot =
+                        snapshot.data?.docs[index];
+                    return Container(
+                      color: backgroundColor,
+                      child: Dismissible(
+                          key: Key(index.toString()),
+                          child: Card(
+                            elevation: 4,
+                            child: ListTile(
+                              title: Text((documentSnapshot != null)
+                                  ? (documentSnapshot["complaints"])
+                                  : ""),
+                              subtitle: Text((documentSnapshot != null)
+                                  ? ((documentSnapshot["description"] != null)
+                                      ? documentSnapshot["description"]
+                                      : "")
+                                  : ""),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete),
+                                color: Colors.red,
+                                onPressed: () {
+                                  setState(() {
+                                    // complaintsLists.removeAt(index);
+                                    deleteTodo((documentSnapshot != null)
+                                        ? (documentSnapshot["complaints"])
+                                        : "");
+                                  });
+                                },
+                              ),
+                            ),
+                          )),
+                    );
+                  }),
+            );
           }
           return const Center(
             child: CircularProgressIndicator(
