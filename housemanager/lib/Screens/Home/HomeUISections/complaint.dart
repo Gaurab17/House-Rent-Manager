@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, avoid_print, unnecessary_string_interpolations, prefer_typing_uninitialized_variables
 import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:brewapp/Screens/Services/constants.dart';
+import 'package:brewapp/Screens/chats/chatscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,6 @@ class Complaints extends StatefulWidget {
 }
 
 class _ComplaintsState extends State<Complaints> {
-  int counter = 0;
   List complaintsLists = List.empty();
   String title = "";
   String description = "";
@@ -39,14 +39,17 @@ class _ComplaintsState extends State<Complaints> {
   UserModel? loggedInUser = UserModel();
 
   hidGenerate() async {
-    DocumentSnapshot snapshot =
-        await FirebaseFirestore.instance.collection("userDetails").doc().get();
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("userDetails")
+        .doc(customers!.uid)
+        .get();
 
-    print(snapshot);
+    print(snapshot.id);
 
     Map data = snapshot.data() as Map;
 
     globalVariable = data['hid'];
+
     print("baaka" + data['hid']);
     await FirebaseFirestore.instance
         .collection("houseIDs")
@@ -101,14 +104,10 @@ class _ComplaintsState extends State<Complaints> {
   Widget build(BuildContext context) {
     // getGlobalHouseId();
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
+        title: const Text("Complaints"),
         backgroundColor: topColor,
-        title: const Text(
-          "Complain Page",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -123,46 +122,43 @@ class _ComplaintsState extends State<Complaints> {
           if (snapshot.hasError) {
             return const Text('Something went wrong');
           } else if (snapshot.hasData || snapshot.data != null) {
-            return Container(
-              color: backgroundColor,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    QueryDocumentSnapshot<Object?>? documentSnapshot =
-                        snapshot.data?.docs[index];
-                    return Container(
-                      color: backgroundColor,
-                      child: Dismissible(
-                          key: Key(index.toString()),
-                          child: Card(
-                            elevation: 4,
-                            child: ListTile(
-                              title: Text((documentSnapshot != null)
-                                  ? (documentSnapshot["complaints"])
-                                  : ""),
-                              subtitle: Text((documentSnapshot != null)
-                                  ? ((documentSnapshot["description"] != null)
-                                      ? documentSnapshot["description"]
-                                      : "")
-                                  : ""),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete),
-                                color: Colors.red,
-                                onPressed: () {
-                                  setState(() {
-                                    // complaintsLists.removeAt(index);
-                                    deleteTodo((documentSnapshot != null)
-                                        ? (documentSnapshot["complaints"])
-                                        : "");
-                                  });
-                                },
-                              ),
+            return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  QueryDocumentSnapshot<Object?>? documentSnapshot =
+                      snapshot.data?.docs[index];
+                  return Dismissible(
+                      key: Key(index.toString()),
+                      child: Card(
+                        elevation: 4,
+                        child: Container(
+                          color: bottombarColor,
+                          child: ListTile(
+                            title: Text((documentSnapshot != null)
+                                ? (documentSnapshot["complaints"])
+                                : ""),
+                            subtitle: Text((documentSnapshot != null)
+                                ? ((documentSnapshot["description"] != null)
+                                    ? documentSnapshot["description"]
+                                    : "")
+                                : ""),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              color: Colors.red,
+                              onPressed: () {
+                                setState(() {
+                                  // complaintsLists.removeAt(index);
+                                  deleteTodo((documentSnapshot != null)
+                                      ? (documentSnapshot["complaints"])
+                                      : "");
+                                });
+                              },
                             ),
-                          )),
-                    );
-                  }),
-            );
+                          ),
+                        ),
+                      ));
+                });
           }
           return const Center(
             child: CircularProgressIndicator(

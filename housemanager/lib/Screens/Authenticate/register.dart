@@ -6,10 +6,58 @@ import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:brewapp/Screens/Services/constants.dart';
 // import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/loadingwid.dart';
-import 'package:brewapp/Screens/chats/chatscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+List<String> house = [];
+
+class HouseIdn extends StatelessWidget {
+  final Stream<QuerySnapshot> users =
+      FirebaseFirestore.instance.collection("userDetails").snapshots();
+
+  // const Tenants({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: StreamBuilder<QuerySnapshot>(
+                stream: users,
+                builder: (
+                  BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot,
+                ) {
+                  if (snapshot.hasError) {
+                    return Text("Loading Data error");
+                  } else {
+                    final data = snapshot.requireData;
+                    return ListView.builder(
+                        itemCount: data.size,
+                        itemBuilder: (context, index) {
+                          var hid = data.docs[index]['hid'];
+                          house.add(hid);
+                          return Column(
+                            children: [
+                              Center(
+                                child: Text("$hid"),
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -118,8 +166,20 @@ class _RegisterState extends State<Register> {
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
-                          validator: (val) =>
-                              val!.isEmpty ? 'Enter your House ID' : null,
+                          // validator: (val) => val!.isEmpty
+                          //     ? 'Enter your House ID'
+                          //     : house.contains(val)
+                          //         ? "House already exists"
+                          //         : null,
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return "Enter HID";
+                            } else if (house.contains(val) == false) {
+                              return "Enter the given house id";
+                            } else {
+                              return null;
+                            }
+                          },
                           onChanged: (val) {
                             setState(() {
                               houseIdEditingController.text = val;

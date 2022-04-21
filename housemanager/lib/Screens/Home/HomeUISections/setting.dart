@@ -5,7 +5,6 @@ import 'package:brewapp/Screens/Services/auth.dart';
 import 'package:brewapp/Screens/Services/constants.dart';
 import 'package:brewapp/Screens/contact/about_us.dart';
 import 'package:brewapp/Screens/contact/contactUs.dart';
-import 'package:contactus/contactus.dart';
 import 'package:flutter/material.dart';
 
 class SettingsApp extends StatelessWidget {
@@ -108,3 +107,56 @@ class SettingsApp extends StatelessWidget {
     );
   }
 }
+
+//   final Stream<QuerySnapshot> users =
+//       FirebaseFirestore.instance.collection("userDetails").snapshots();
+
+//   List<String> house = [];
+//   // const Tenants({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.black,
+//       body: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         // crossAxisAlignment: CrossAxisAlignment.center,
+//         children: [
+//           Center(
+//             child: SingleChildScrollView(
+//               child: Container(
+//                   height: MediaQuery.of(context).size.height / 1.3,
+//                   width: MediaQuery.of(context).size.width / 1.2,
+//                   color: Colors.green,
+//                   child: StreamBuilder<QuerySnapshot>(
+//                       stream: users,
+//                       builder: (
+//                         BuildContext context,
+//                         AsyncSnapshot<QuerySnapshot> snapshot,
+//                       ) {
+//                         if (snapshot.hasError) {
+//                           return Text("Loading Data error");
+//                         } else {
+//                           final data = snapshot.requireData;
+//                           return ListView.builder(
+//                               itemCount: data.size,
+//                               itemBuilder: (context, index) {
+//                                 var hid = data.docs[index]['hid'];
+//                                 house.add(hid);
+//                                 return Column(
+//                                   children: [
+//                                     Center(
+//                                       child: Text("$hid"),
+//                                     ),
+//                                   ],
+//                                 );
+//                               });
+//                         }
+//                       })),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
