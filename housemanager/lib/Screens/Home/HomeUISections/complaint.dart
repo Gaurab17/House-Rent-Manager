@@ -45,11 +45,9 @@ class _ComplaintsState extends State<Complaints> {
         .get();
 
     print(snapshot.id);
-
     Map data = snapshot.data() as Map;
 
     globalVariable = data['hid'];
-
     print("baaka" + data['hid']);
     await FirebaseFirestore.instance
         .collection("houseIDs")

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, avoid_print, empty_statements, prefer_const_constructors_in_immutables, use_key_in_widget_constructors, unused_local_variable
 
 // import 'package:brewapp/Screens/Authenticate/signin.dart';
+import 'package:async_textformfield/async_textformfield.dart';
 import 'package:brewapp/Screens/Home/home.dart';
 import 'package:brewapp/Screens/Models/user_model.dart';
 import 'package:brewapp/Screens/Services/constants.dart';
@@ -10,54 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-List<String> house = [];
-
-class HouseIdn extends StatelessWidget {
-  final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection("userDetails").snapshots();
-
-  // const Tenants({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: StreamBuilder<QuerySnapshot>(
-                stream: users,
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot,
-                ) {
-                  if (snapshot.hasError) {
-                    return Text("Loading Data error");
-                  } else {
-                    final data = snapshot.requireData;
-                    return ListView.builder(
-                        itemCount: data.size,
-                        itemBuilder: (context, index) {
-                          var hid = data.docs[index]['hid'];
-                          house.add(hid);
-                          return Column(
-                            children: [
-                              Center(
-                                child: Text("$hid"),
-                              ),
-                            ],
-                          );
-                        });
-                  }
-                }),
-          ),
-        ],
-      ),
-    );
-  }
-}
+bool _hidExist = false;
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -91,6 +45,37 @@ class _RegisterState extends State<Register> {
       _obscureText = !_obscureText;
     });
   }
+
+  Future<dynamic> doesNameAlreadyExist(String hid) async {
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection('HouseNo')
+        .where('hid', isEqualTo: hid)
+        .limit(1)
+        .get();
+    final List<DocumentSnapshot> documents = result.docs;
+    return documents.length == 1;
+  }
+
+  Future<bool> checkUserValue(String hid) async {
+    await doesNameAlreadyExist(hid).then((help) {
+      if (!help) {
+        print("House ID doesn't Exist");
+        _hidExist = help;
+      } else {
+        print("House id Available");
+        _hidExist = help;
+      }
+    });
+    return _hidExist;
+  }
+
+  // void test() async {
+  //   QuerySnapshot firebasedata =
+  //       await FirebaseFirestore.instance.collection("houseIDs").get();
+
+  //   var firelist = firebasedata.docs.map((e) => e.id).toList();
+  //   print(firelist);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -139,12 +124,29 @@ class _RegisterState extends State<Register> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 22),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 106.0, right: 112),
+                          child: AsyncTextFormField(
+                            validationDebounce: Duration(milliseconds: 500),
+                            valueIsEmptyMessage: "Enter valid house ID",
+                            validator: checkUserValue,
+                            hintText: "Enter House Id",
+                            controller: houseIdEditingController,
+                            isValidatingMessage:
+                                'Comparing with the hash IDs from a secure server..',
+                            valueIsInvalidMessage: 'Nope, Try Correct ID..',
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 26.0, right: 22),
                         child: TextFormField(
-                          validator: (val) => val!.isEmpty
-                              ? 'Enter Full Name'
-                              : val.length > 30
-                                  ? "Enter Name with length less than 30"
-                                  : null,
+                          validator: (val) =>
+                              val!.isEmpty ? 'Enter Full Name' : null,
                           onChanged: (val) {
                             setState(() {
                               fulllnameEditingController.text = val;
@@ -155,42 +157,7 @@ class _RegisterState extends State<Register> {
                                 Icons.person,
                                 color: Colors.red,
                               ),
-                              hintText: 'Enter your Full Name',
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16))),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 26.0, right: 22),
-                        child: TextFormField(
-                          // validator: (val) => val!.isEmpty
-                          //     ? 'Enter your House ID'
-                          //     : house.contains(val)
-                          //         ? "House already exists"
-                          //         : null,
-                          validator: (val) {
-                            if (val!.isEmpty) {
-                              return "Enter HID";
-                            } else if (house.contains(val) == false) {
-                              return "Enter the given house id";
-                            } else {
-                              return null;
-                            }
-                          },
-                          onChanged: (val) {
-                            setState(() {
-                              houseIdEditingController.text = val;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.phone,
-                                color: Colors.red,
-                              ),
-                              hintText: 'House ID',
+                              hintText: 'Enter Your Full Name ',
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16))),
                         ),
