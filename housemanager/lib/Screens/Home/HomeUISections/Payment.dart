@@ -134,6 +134,18 @@ class _KhaltiPaymentPageState extends State<KhaltiPaymentPage> {
                           .then((value) => print("Payment Date added"))
                           .catchError(
                               (error) => print('Error in creating collection'));
+                      FirebaseFirestore.instance
+                          .collection("billings")
+                          .doc(globalVariable)
+                          .collection("bills")
+                          .add({
+                            "paid by": loggedInUser!.fullname,
+                            "payment date": now.toString(),
+                            "payment history": (getAmt() / 100).toString(),
+                          })
+                          .then((value) => print("Payment Date added"))
+                          .catchError(
+                              (error) => print('Error in creating collection'));
                     },
                     onFailure: (fa) {
                       const failedsnackBar = SnackBar(

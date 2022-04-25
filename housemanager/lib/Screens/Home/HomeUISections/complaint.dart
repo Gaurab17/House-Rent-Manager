@@ -21,6 +21,7 @@ class Complaints extends StatefulWidget {
 
 class _ComplaintsState extends State<Complaints> {
   List complaintsLists = List.empty();
+  List complaintsLists1 = List.empty();
   String title = "";
   String description = "";
   String globalHid = "";
@@ -78,6 +79,22 @@ class _ComplaintsState extends State<Complaints> {
     documentReference
         .set(complaints)
         .whenComplete(() => print("Data stored successfully"));
+
+    DocumentReference documentReference1 = FirebaseFirestore.instance
+        .collection("complaints")
+        .doc(globalVariable)
+        .collection("complaints")
+        .doc(title);
+
+    Map<String, String> complaints1 = {
+      "Complained By": loggedInUser!.fullname.toString(),
+      "complaints": title,
+      "description": description
+    };
+
+    documentReference1
+        .set(complaints1)
+        .whenComplete(() => print("Data stored successfully"));
   }
 
   deleteTodo(item) {
@@ -96,6 +113,7 @@ class _ComplaintsState extends State<Complaints> {
   void initState() {
     super.initState();
     complaintsLists = ["Hello", "Hey There"];
+    complaintsLists1 = ["Hello", "Hey There", "Hello"];
     hidGenerate();
   }
 
