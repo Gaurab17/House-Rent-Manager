@@ -107,6 +107,16 @@ class _ComplaintsState extends State<Complaints> {
         .doc(item);
 
     delete.delete().whenComplete(() => print("deleted successfully"));
+
+    DocumentReference documentReference1 = FirebaseFirestore.instance
+        .collection("complaints")
+        .doc(globalVariable)
+        .collection("complaints")
+        .doc(item);
+
+    documentReference1
+        .delete()
+        .whenComplete(() => print("deleted successfully"));
   }
 
   @override
