@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       initialData: null,
       child: KhaltiScope(
-          publicKey: "test_public_key_180e7f68d1014c72bfa8adfbf30f92ce",
+          publicKey: "Your Test Key here",
           builder: (context, navigatorKey) {
             return MaterialApp(
               navigatorKey: navigatorKey,
